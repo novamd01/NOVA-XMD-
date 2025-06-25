@@ -1,7 +1,7 @@
 {
   "name": "NOVA-XMD",
   "version": "4.0.0",
-  "description": "A WhatsApp Bot Created By novaxmd",
+  "description": "A WhatsApp Bot Created By novamd01",
   "main": "index.js",
   "scripts": {
     "start": "pm2 start index.js --deep-monitoring --attach --name NOVA-XMD",
