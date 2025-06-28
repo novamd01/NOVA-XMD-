@@ -7,7 +7,7 @@ cmd({
     react: "✅",
     desc: "Get pairing code for 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 bot",
     category: "download",
-    use: ".pair 254785392165",
+    use: ".pair 255767862457",
     filename: __filename
 }, async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, senderNumber, reply }) => {
     try {
