@@ -1,123 +1,119 @@
 const {cmd , commands} = require('../command')
-const fg = require('api-dylux')
 const yts = require('yt-search')
+const axios = require("axios");
 
 cmd({
-    pattern: "song",
-    alias: ["play2"],
-    react: "🎼",
-    desc: "Download high-quality music",
+    pattern: "play2",
+    desc: "To download songs.",
+    react: "🎵",
     category: "download",
     filename: __filename
 },
 async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-try{
+try {
+    if (!q) return reply("Please give me a url or title");
 
-if(!q) return reply("*🌀𝗘𝗥𝗥𝗢𝗥! 𝗣𝗹𝗲𝗮𝘀𝗲 𝗽𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘀𝗼𝗻𝗴 𝗻𝗮𝗺𝗲 𝗼𝗿 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗟𝗶𝗻𝗸🌊*")
-const search = await yts(q)
-const deta = search.videos[0];
-const url = deta.url 
+    const search = await yts(q);
+    const data = search.videos[0];
+    const url = data.url;
 
-let desc= `
-✦♬♪♫𝓢𝓞𝓝𝓖-𝓓𝓞𝓦𝓝𝓛𝓞𝓐𝓓𝓔𝓡♫♪♬✦
+    let desc = `
+*⫷* 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 MUSⵊC DOWNLOADⵊNG⦁⫸*
 
-◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈
+🎵 *MUSⵊC FOUND!* 
 
-❖  𝕿𝖎𝖙𝖑𝖊:  『${deta.title}』
+➥ *Title:* ${data.title} 
+➥ *Duration:* ${data.timestamp} 
+➥ *Views:* ${data.views} 
+➥ *Uploaded On:* ${data.ago} 
+➥ *Link:* ${data.url} 
 
-✧⋄⋆⋅⋅⋅⋆⋄✧⋄⋆⋅⋅⋅⋆⋄✧⋄⋆⋅⋅⋅⋆⋄✧
+🎧 *ENJOY THE MUSIC BROUGHT TO YOU!*
 
-📜  𝕯𝖊𝖘𝖈𝖗𝖎𝖕𝖙𝖎𝖔𝖓: 
-『${deta.description}』
+> *𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 WHATSAPP BOT* 
+> *© ᴄʀᴇᴀᴛᴇᴅ ʙʏ 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳* 
+`;
 
-✧⋄⋆⋅⋅⋅⋆⋄✧⋄⋆⋅⋅⋅⋆⋄✧⋄⋆⋅⋅⋅⋆⋄✧
+    await conn.sendMessage(from, { image: { url: data.thumbnail }, caption: desc }, { quoted: mek });
 
-⏳  𝕿𝖎𝖒𝖊𝖘𝖙𝖆𝖒𝖕:  ${deta.timestamp}
+    // Use new API
+    let apiRes = await fetch(`https://api.giftedtech.web.id/api/download/ytmp3?apikey=gifted&url=${encodeURIComponent(url)}`);
+    let json = await apiRes.json();
 
-🕒  𝕬𝖌𝖔:  ${deta.ago}
+    if (!json.success) return reply("Failed to fetch audio from new API");
 
-👁️  𝖁𝖎𝖊𝖜𝖘:  ${deta.views}
+    let downloadUrl = json.result.download_url;
 
-◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈
+    await conn.sendMessage(from, { audio: { url: downloadUrl }, mimetype: "audio/mpeg" }, { quoted: mek });
+    await conn.sendMessage(from, {
+        document: { url: downloadUrl },
+        mimetype: "audio/mpeg",
+        fileName: json.result.title + ".mp3",
+        caption: "*© ᴄʀᴇᴀᴛᴇᴅ ʙʏ 𝗕.𝗠.𝗕-𝗧𝗘𝗖𝗛*"
+    }, { quoted: mek });
 
-✨  𝗣𝗢𝗪𝗘𝗥𝗘𝗗 𝗕𝗬 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗  ✨
-`
-
-await conn.sendMessage(from,{image :{ url: deta.thumbnail},caption:desc},{quoted:mek});
-
-// Download audio+document
-const res = await fetch(`https://api.davidcyriltech.my.id/youtube/mp3?url=${url}`);
-const data = await res.json();
-if (!data.success) return reply("🌀𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗙𝗮𝗶𝗹𝗲𝗱! 𝗣𝗹𝗲𝗮𝘀𝗲 𝘁𝗿𝘆 𝗮𝗴𝗮𝗶𝗻🌊");
-
-let downloadUrl = data.result.downloadUrl;
-
-// Send audio message 
-await conn.sendMessage(from,{audio:{url:downloadUrl},mimetype:"audio/mpeg",caption :"🎧 𝗠𝘂𝘀𝗶𝗰 𝗯𝘆 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 🌟"},{quoted:mek})
-await conn.sendMessage(from,{document:{url:downloadUrl},mimetype:"audio/mpeg",fileName:deta.title + ".mp3" ,caption :"📥 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗲𝗱 𝘄𝗶𝘁𝗵 ʙ.ᴍ.ʙ-xᴍᴅ-ᴠ2 💫"},{quoted:mek})
-
-}catch(e){
-console.log(e)
-reply(`🌀𝗘𝗥𝗥𝗢𝗥! ${e} 🌊`)
+} catch (e) {
+    console.log(e);
+    reply(`_Hi ${pushname}, retry later_`);
 }
 })
 
-// ======== VIDEO DL ========
+//====================video_dl=======================
+
 cmd({
-    pattern: "video2",
-    react: "🎬",
-    desc: "Download HD videos",
+    pattern: "darama",
+    alias: ["video2"],
+    desc: "To download videos.",
+    react: "🎥",
     category: "download",
     filename: __filename
 },
 async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
-try{
+try {
+    if (!q) return reply("Please give me a url or title");
 
-if(!q) return reply("*🌀𝗘𝗥𝗥𝗢𝗥! 𝗣𝗹𝗲𝗮𝘀𝗲 𝗽𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗶𝗱𝗲𝗼 𝗻𝗮𝗺𝗲 𝗼𝗿 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗟𝗶𝗻𝗸🌊*")
-const search = await yts(q)
-const deta = search.videos[0];
-const url = deta.url 
+    const search = await yts(q);
+    const data = search.videos[0];
+    const url = data.url;
 
-let desc= `
-✦𝓥𝓘𝓓𝓔𝓞-𝓓𝓞𝓦𝓝𝓛𝓞𝓐𝓓𝓔𝓡 ✦
+    let desc = `
+*⫷⦁𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 VⵊDEO DOWNLOADⵊNG⦁⫸*
 
-◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈
+🎥 *VⵊDEO FOUND!* 
 
-❖  𝕿𝖎𝖙𝖑𝖊:  『${deta.title}』
+➥ *Title:* ${data.title} 
+➥ *Duration:* ${data.timestamp} 
+➥ *Views:* ${data.views} 
+➥ *Uploaded On:* ${data.ago} 
+➥ *Link:* ${data.url} 
 
-✧⋄⋆⋅⋅⋅⋆⋄✧⋄⋆⋅⋅⋅⋆⋄✧⋄⋆⋅⋅⋅⋆⋄✧
+🎬 *ENJOY THE VIDEO BROUGHT TO YOU!*
 
-📜  𝕯𝖊𝖘𝖈𝖗𝖎𝖕𝖙𝖎𝖔𝖓: 
-『${deta.description}』
+> *𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 WHATSAPP BOT* 
+> *© ᴄʀᴇᴀᴛᴇᴅ ʙʏ 𝗕.𝗠.𝗕-𝗧𝗘𝗖𝗛*
+`;
 
-✧⋄⋆⋅⋅⋅⋆⋄✧⋄⋆⋅⋅⋅⋆⋄✧⋄⋆⋅⋅⋅⋆⋄✧
+    await conn.sendMessage(from, { image: { url: data.thumbnail }, caption: desc }, { quoted: mek });
 
-⏳  𝕿𝖎𝖒𝖊𝖘𝖙𝖆𝖒𝖕:  ${deta.timestamp}
+    // Use new API
+    let apiRes = await fetch(`https://api.giftedtech.web.id/api/download/dlmp4?apikey=gifted&url=${encodeURIComponent(url)}`);
+    let json = await apiRes.json();
 
-🕒  𝕬𝖌𝖔:  ${deta.ago}
+    if (!json.success) return reply("Failed to fetch video from new API");
 
-👁️  𝖁𝖎𝖊𝖜𝖘:  ${deta.views}
+    let downloadUrl = json.result.download_url;
 
-◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈
+    await conn.sendMessage(from, { video: { url: downloadUrl }, mimetype: "video/mp4" }, { quoted: mek });
+    await conn.sendMessage(from, {
+        document: { url: downloadUrl },
+        mimetype: "video/mp4",
+        fileName: json.result.title + ".mp4",
+        caption: "*© 𝗕.𝗠.𝗕-𝗧𝗘𝗖𝗛*"
+    }, { quoted: mek });
 
-✨  𝗣𝗢𝗪𝗘𝗥𝗘𝗗 𝗕𝗬 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗  ✨
-`
-
-await conn.sendMessage(from,{image :{ url: deta.thumbnail},caption:desc},{quoted:mek});
-
-// Download video+document
-const res = await fetch(`https://api.davidcyriltech.my.id/youtube/mp3?url=${url}`);
-const data = await res.json();
-if (!data.success) return reply("🌀𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗙𝗮𝗶𝗹𝗲𝗱! 𝗣𝗹𝗲𝗮𝘀𝗲 𝘁𝗿𝘆 𝗮𝗴𝗮𝗶𝗻🌊");
-
-let downloadUrl = data.result.downloadUrl;
-
-// Send video message
-await conn.sendMessage(from,{video:{url:downloadUrl},mimetype:"video/mp4",caption :"🎥 𝗩𝗶𝗱𝗲𝗼 𝗯𝘆 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 🌟"},{quoted:mek})
-await conn.sendMessage(from,{document:{url:downloadUrl},mimetype:"video/mp4",fileName:deta.title + ".mp4",caption :"📥 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗲𝗱 𝘄𝗶𝘁𝗵 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 💫"},{quoted:mek})
-
-}catch(e){
-console.log(e)
-reply(`🌀𝗘𝗥𝗥𝗢𝗥! ${e} 🌊`)
+} catch (e) {
+    console.log(e);
+    reply(`_Hi ${pushname}, retry later_`);
 }
 })
+        
