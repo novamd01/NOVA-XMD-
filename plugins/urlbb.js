@@ -1,60 +1,66 @@
 const axios = require("axios");
+const FormData = require("form-data");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const FormData = require("form-data");
 const { cmd } = require("../command");
 
 cmd({
-  pattern: "urlbb",
-  alias: ["imgtourl", "img2url"],
-  desc: "Upload image and get a public URL.",
+  pattern: "tourl",
+  alias: ["imgtourl", "img2url", "urlbb"],
+  react: "🖇",
+  desc: "Convert an image to a URL using your own API.",
   category: "utility",
   use: ".tourl",
   filename: __filename
-}, async (msg, match, m, client) => {
-  const { from, quoted, reply, sender } = client;
+}, async (_0x2a615f, _0x296ebb, _0x131287, _0x46c0dd) => {
+  const { from: _0x462e92, quoted: _0x38fbf1, reply: _0x74c833, sender: _0x5931e7 } = _0x46c0dd;
 
   try {
-    const target = match.quoted || match;
-    const mimetype = (target.msg || target).mimetype || "";
+    const _0x2fc0f4 = _0x296ebb.quoted ? _0x296ebb.quoted : _0x296ebb;
+    const _0x4dd0ec = (_0x2fc0f4.msg || _0x2fc0f4).mimetype || '';
 
-    if (!mimetype.startsWith("image")) {
-      return reply("⚠️ Please reply to an image.");
+    if (!_0x4dd0ec.startsWith("image")) {
+      throw "🌻 Please reply to an image.";
     }
 
-    // Download the image
-    const buffer = await target.download();
-    const tempPath = path.join(os.tmpdir(), "upload.jpg");
-    fs.writeFileSync(tempPath, buffer);
+    const _0x227cf8 = await _0x2fc0f4.download();
+    const _0x18c2b8 = path.join(os.tmpdir(), "temp_image.jpg");
+    fs.writeFileSync(_0x18c2b8, _0x227cf8);
 
-    // Prepare the form
-    const form = new FormData();
-    form.append("image", fs.createReadStream(tempPath));
+    const _0x1bf672 = new FormData();
+    _0x1bf672.append("image", fs.createReadStream(_0x18c2b8));
 
-    // Send to your Render API
-    const res = await axios.post(
-      "https://b-m-b-api-code.onrender.com/api/upload",
-      form,
-      { headers: form.getHeaders() }
-    );
-
-    fs.unlinkSync(tempPath);
-
-    const imageURL = res.data.url;
-
-    if (!imageURL) throw "❌ Failed to retrieve uploaded image URL.";
-
-    // Send response
-    await msg.sendMessage(from, {
-      text: `✅ *Image Uploaded Successfully:*\n📎 ${imageURL}`,
-      contextInfo: {
-        mentionedJid: [sender]
-      }
+    // ✅ NEW API
+    const _0x338f64 = await axios.post("https://b-m-b-api-code.onrender.com/api/upload", _0x1bf672, {
+      headers: _0x1bf672.getHeaders()
     });
 
-  } catch (err) {
-    console.error("❌ Upload Error:", err);
-    reply("❌ Upload failed: " + err.toString());
+    fs.unlinkSync(_0x18c2b8);
+
+    const _0x2b12b1 = _0x338f64.data?.url;
+    if (!_0x2b12b1) {
+      throw "❌ Failed to upload image or get URL.";
+    }
+
+    const _0x273817 = {
+      mentionedJid: [_0x5931e7],
+      forwardingScore: 999,
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: "120363382023564830@newsletter",
+        newsletterName: "𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 🔥",
+        serverMessageId: 143
+      }
+    };
+
+    await _0x2a615f.sendMessage(_0x462e92, {
+      text: `*✅ Image Uploaded Successfully 📸*\n\n🔗 URL:\n${_0x2b12b1}`,
+      contextInfo: _0x273817
+    });
+
+  } catch (_0x5db687) {
+    _0x74c833("❌ Error: " + _0x5db687);
+    console.error("Upload Error:", _0x5db687);
   }
 });
