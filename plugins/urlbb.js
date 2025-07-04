@@ -1,74 +1,60 @@
 const axios = require("axios");
-const FormData = require("form-data");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const FormData = require("form-data");
 const { cmd } = require("../command");
 
 cmd({
-  pattern: "tourl",
-  alias: ["imgtourl", "img2url", "urlbmb"],
-  desc: "Convert an image to a URL using imgbb.",
+  pattern: "urlbb",
+  alias: ["imgtourl", "img2url"],
+  desc: "Upload image and get a public URL.",
   category: "utility",
-  react: "🖇",
   use: ".tourl",
   filename: __filename
-}, async (message, match, m, client) => {
+}, async (msg, match, m, client) => {
   const { from, quoted, reply, sender } = client;
 
   try {
-    const quotedMsg = match.quoted ? match.quoted : match;
-    const mimetype = (quotedMsg.msg || quotedMsg).mimetype || "";
+    const target = match.quoted || match;
+    const mimetype = (target.msg || target).mimetype || "";
 
     if (!mimetype.startsWith("image")) {
-      return reply("🌻 Please reply to an image.");
+      return reply("⚠️ Please reply to an image.");
     }
 
     // Download the image
-    const buffer = await quotedMsg.download();
-    const tempPath = path.join(os.tmpdir(), "bmb_temp_image.jpg");
+    const buffer = await target.download();
+    const tempPath = path.join(os.tmpdir(), "upload.jpg");
     fs.writeFileSync(tempPath, buffer);
 
-    // Prepare the image for upload
+    // Prepare the form
     const form = new FormData();
     form.append("image", fs.createReadStream(tempPath));
 
-    // Upload to imgbb
-    const response = await axios.post(
-      "https://api.imgbb.com/1/upload?key=3b4a0e1a465acac9fbbf72c8d6f791cb",
+    // Send to your Render API
+    const res = await axios.post(
+      "https://b-m-b-api-code.onrender.com/api/upload",
       form,
       { headers: form.getHeaders() }
-    ).catch(err => {
-      console.error("API ERROR:", err.response?.data || err.message);
-      throw "❌ Failed to contact imgbb API.";
-    });
+    );
 
-    const imageURL = response?.data?.data?.url;
-
-    // Delete the temporary file
     fs.unlinkSync(tempPath);
 
-    if (!imageURL) {
-      throw "❌ Failed to retrieve image URL.";
-    }
+    const imageURL = res.data.url;
 
-    // Send success response
-    await message.sendMessage(from, {
-      text: `*✅ Image Uploaded Successfully*\n📎 URL: ${imageURL}`,
+    if (!imageURL) throw "❌ Failed to retrieve uploaded image URL.";
+
+    // Send response
+    await msg.sendMessage(from, {
+      text: `✅ *Image Uploaded Successfully:*\n📎 ${imageURL}`,
       contextInfo: {
-        mentionedJid: [sender],
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: "120363382023564830@newsletter",
-          newsletterName: "𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 🔥",
-          serverMessageId: 100
-        }
+        mentionedJid: [sender]
       }
     });
 
-  } catch (error) {
-    console.error("Error:", error);
-    reply("⚠️ Error: " + error.toString());
+  } catch (err) {
+    console.error("❌ Upload Error:", err);
+    reply("❌ Upload failed: " + err.toString());
   }
 });
