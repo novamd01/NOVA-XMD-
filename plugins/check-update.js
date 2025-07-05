@@ -27,7 +27,7 @@ cmd({
     }
 
     // Fetch latest version data from GitHub
-    const rawVersionUrl = 'https://raw.githubusercontent.com/novaxmd/NOVA-XMD/main/data/version.json';
+    const rawVersionUrl = 'https://github.com/novaxmd/BMB-XMD-DATA/raw/refs/heads/main/version.json';
     let latestVersion = 'Unknown';
     let latestChangelog = 'No changelog available.';
     try {
