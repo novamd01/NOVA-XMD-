@@ -73,7 +73,7 @@ async (conn, mek, m, {
 
         // Send menu message with image
         const sentMsg = await conn.sendMessage(from, {  
-            image: { url: "https://files.catbox.moe/p0xeh3.jpg" },
+            image: { url: "https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/image/allmenu.jpg" },
             caption: menuText
         }, { quoted: m });
 
