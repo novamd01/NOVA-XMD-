@@ -53,14 +53,14 @@ async(conn, mek, m, {from, l, quoted, body, isCmd, command, args, q, isGroup, se
         await conn.sendMessage(
             from,
             {
-                image: { url: `https://files.catbox.moe/p0xeh3.jpg` }, // Image URL here
+                image: { url: `https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/image/allmenu.jpg` }, // Image URL here
                 caption: dec,
                 contextInfo: {
                     mentionedJid: [m.sender],
                     forwardingScore: 999,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
-                        newsletterJid: 'https://files.catbox.moe/p0xeh3.jpg',
+                        newsletterJid: '120363382023564830@newsletter',
                         newsletterName: '𝙽𝙾𝚅𝙰-𝚇𝙼𝙳',
                         serverMessageId: 143
                     }
@@ -71,7 +71,7 @@ async(conn, mek, m, {from, l, quoted, body, isCmd, command, args, q, isGroup, se
 
         // Optionally, send an audio file related to the prayer time
         await conn.sendMessage(from, {
-            audio: { url: 'https://files.catbox.moe/6j2z63.mp3' },
+            audio: { url: 'https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/media/menu1.mp3' },
             mimetype: 'audio/mp4',
             ptt: false
         }, { quoted: mek });
