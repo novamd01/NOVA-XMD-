@@ -50,7 +50,7 @@ wa.me/+255767862457 ?text=Support!
 await conn.sendMessage(
             from,
             {
-                image: { url: `https://files.catbox.moe/p0xeh3.jpg` },
+                image: { url: `https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/image/allmenu.jpg` },
                 caption: dec,
                 contextInfo: {
                     mentionedJid: [m.sender],
@@ -68,7 +68,7 @@ await conn.sendMessage(
 
         // Send audio
         await conn.sendMessage(from, {
-            audio: { url: 'https://files.catbox.moe/wify3q.mp3' },
+            audio: { url: 'https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/media/menu1.mp3' },
             mimetype: 'audio/mp4',
             ptt: true
         }, { quoted: mek });
