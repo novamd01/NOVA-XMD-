@@ -54,7 +54,7 @@ async (conn, mek, m, { from, reply, sender, args }) => {
             from,
             {
                 image: { 
-                    url: movie.poster && movie.poster !== 'N/A' ? movie.poster : 'https://files.catbox.moe/p0xeh3.jpg'
+                    url: movie.poster && movie.poster !== 'N/A' ? movie.poster : 'https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/image/allmenu.jpg'
                 },
                 caption: dec,
                 contextInfo: {
