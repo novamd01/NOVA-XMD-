@@ -73,7 +73,7 @@ Use *.update* to update.`;
 
     // Send the status message with an image
     await conn.sendMessage(from, {
-      image: { url: 'https://files.catbox.moe/p0xeh3.jpg' },
+      image: { url: 'https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/image/allmenu.jpg' },
       caption: statusMessage,
       contextInfo: {
         mentionedJid: [m.sender],
