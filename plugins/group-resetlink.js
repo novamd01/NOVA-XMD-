@@ -13,7 +13,7 @@ cmd({
 },
 async(conn, mek, m,{from, l, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isCreator ,isDev, isAdmins, reply}) => {
 try{
-const msr = (await fetchJson('https://files.catbox.moe/l4jcb6.mp3')).replyMsg
+const msr = (await fetchJson('https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/media/menu1.mp3')).replyMsg
 
 if (!isGroup) return reply(msr.only_gp)
 if (!isAdmins) { if (!isDev) return reply(msr.you_adm),{quoted:mek }} 
