@@ -29,7 +29,7 @@ async (conn, mek, m, { from }) => {
 
         // Send the owner contact message with image and audio
         await conn.sendMessage(from, {
-            image: { url: 'https://files.catbox.moe/p0xeh3.jpg' }, // Image URL from your request
+            image: { url: 'https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/image/allmenu.jpg' }, // Image URL from your request
             caption: `╭━━〔 *𝗡𝗢𝗩𝗔-𝗫𝗠𝗗* 〕━━┈⊷
 ┃◈╭─────────────·๏
 ┃◈┃• *Here is the owner details*
@@ -53,7 +53,7 @@ async (conn, mek, m, { from }) => {
 
         // Send audio as per your request
         await conn.sendMessage(from, {
-            audio: { url: 'https://files.catbox.moe/6j2z63.mp3' }, // Audio URL
+            audio: { url: 'https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/media/menu1.mp3' }, // Audio URL
             mimetype: 'audio/mp4',
             ptt: true
         }, { quoted: mek });
