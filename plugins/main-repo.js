@@ -172,7 +172,7 @@ ${repoData.description || 'No description provided'}
 
         // Send image with repo info
         await conn.sendMessage(from, {
-            image: { url: config.MENU_IMAGE_URL || 'https://files.catbox.moe/p0xeh3.jpg' },
+            image: { url: config.MENU_IMAGE_URL || 'https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/image/allmenu.jpg' },
             caption: selectedStyle,
             contextInfo: { 
                 mentionedJid: [m.sender],
@@ -188,7 +188,7 @@ ${repoData.description || 'No description provided'}
 
         // Send audio
         await conn.sendMessage(from, {
-            audio: { url: 'https://files.catbox.moe/6j2z63.mp3' },
+            audio: { url: 'https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/media/menu1.mp3' },
             mimetype: 'audio/mp4',
             ptt: true,
             contextInfo: { 
