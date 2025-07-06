@@ -31,7 +31,7 @@ cmd({
     const videoUrl = data.data.url;
     await conn.sendMessage(from, {
       video: { url: videoUrl },
-      caption: "📥 *Facebook Video Downloaded*\n\n- Powered By Nexus Tech ✅",
+      caption: "📥 *Facebook Video Downloaded*\n\n- Powered By 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳 ✅",
     }, { quoted: m });
 
   } catch (error) {
