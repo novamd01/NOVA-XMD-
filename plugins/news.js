@@ -24,7 +24,7 @@ async (conn, mek, m, { from, reply }) => {
 ⚠️ _${article.description}_
 🔗 _${article.url}_
 
-  ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ Nexus Tech
+  ©ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳
             `;
 
             console.log('Article URL:', article.urlToImage); // Log image URL for debugging
