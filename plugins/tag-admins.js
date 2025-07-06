@@ -41,7 +41,7 @@ async (conn, mek, m, { from, participants, reply, isGroup, senderNumber, groupAd
             teks += `${randomEmoji} @${admin.split('@')[0]}\n`;
         }
 
-        teks += "└──✪ NEXUS ┃ XMD ✪──";
+        teks += "└──✪ 𝗡𝗢𝗩𝗔 ┃ 𝗫𝗠𝗗 ✪──";
 
         conn.sendMessage(from, { text: teks, mentions: admins }, { quoted: mek });
 
