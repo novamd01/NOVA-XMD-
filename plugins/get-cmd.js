@@ -39,7 +39,7 @@ ${truncatedCode}
 \`\`\`
 ╰──────────⊷  
 ⚡ Full file sent below 📂  
-Powered By *Nexus Tech* ☣️`;
+Powered By *𝙽𝙾𝚅𝙰-𝚇𝙼𝙳🤙*`;
 
         // Send image with truncated source code
         await conn.sendMessage(from, { 
