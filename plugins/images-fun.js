@@ -442,9 +442,9 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
         const response = await axios.get(apiUrl);
         const data = response.data;
 
-        await conn.sendMessage(from, { image: { url: data.message }, caption: '> *© Powered By NEXUS-TECH> ' }, { quoted: mek });
+        await conn.sendMessage(from, { image: { url: data.message }, caption: '> *© Powered By 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 > ' }, { quoted: mek });
     } catch (e) {
-        console.log(e); // ❯❯ Powered by NEXUS TECH 👑
+        console.log(e); // ❯❯ Powered by 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 👑
         reply(`єяяσя ƒєт¢нιηg ∂σg ιмαgє: ${e.message}`);
     }
 });
