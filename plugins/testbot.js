@@ -9,17 +9,7 @@ cmd({
   use: "<song title>"
 }, async (m, user, msg, { text, prefix, command, reply }) => {
   if (!text) {
-    return reply({
-      text: `Please provide a song title.\nExample: *${prefix + command} robbery*`,
-      mentions: [m.sender],
-      forwardingScore: 999,
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363382023564830@newsletter',
-        newsletterName: '🌐𝐁.𝐌.𝐁-𝐗𝐌𝐃🌐',
-        serverMessageId: 143
-      }
-    });
+    return reply(`Please provide a song title.\nExample: *${prefix + command} robbery*`);
   }
 
   const query = encodeURIComponent(text);
@@ -29,23 +19,23 @@ cmd({
     const response = await fetch(apiUrl);
     const data = await response.json();
 
-    if (!data.result || !data.result.lyrics || data.result.lyrics.length === 0) {
-      return reply({
-        text: "❌ Lyrics not found.",
-        mentions: [m.sender],
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363382023564830@newsletter',
-          newsletterName: '🌐𝐁.𝐌.𝐁-𝐗𝐌𝐃🌐',
-          serverMessageId: 143
-        }
-      });
+    if (
+      !data.result ||
+      !data.result.lyrics ||
+      data.result.lyrics.length === 0
+    ) {
+      return reply("❌ Lyrics not found.");
     }
 
-    const { title, artist, album, url, lyrics } = data.result;
+    const {
+      title,
+      artist,
+      album,
+      url,
+      lyrics
+    } = data.result;
 
-    let message = `🎵 *${title}*\n👤 Artist: ${artist}\n💿 Album: ${album}\n🔗 ${url}\n> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐁.𝐌.𝐁-𝐗𝐌𝐃*💫\n\n📄 *Lyrics:*\n`;
+    let message = `🎵 *${title}*\n👤 Artist: ${artist}\n💿 Album: ${album}\n🔗 ${url}\n> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳*💫\n\n📄 *Lyrics:*\n`;
 
     for (const line of lyrics) {
       if (line.type === "header") {
@@ -55,29 +45,19 @@ cmd({
       }
     }
 
-    await reply({
-      text: message.trim(),
-      mentions: [m.sender],
-      forwardingScore: 999,
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363382023564830@newsletter',
-        newsletterName: '🌐𝐁.𝐌.𝐁-𝐗𝐌𝐃🌐',
-        serverMessageId: 143
+    await msg.send(message.trim(), {
+      contextInfo: {
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: "120363382023564830@newsletter", // <-- Jid yako hapa
+          newsletterName: "𝙱.𝙼.𝙱-𝚇𝙼𝙳",                   // <-- Jina la channel yako
+          serverMessageId: 1
+        }
       }
     });
   } catch (error) {
     console.error(error);
-    reply({
-      text: "❌ Failed to fetch lyrics. Try again later.",
-      mentions: [m.sender],
-      forwardingScore: 999,
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363382023564830@newsletter',
-        newsletterName: '🌐𝐁.𝐌.𝐁-𝐗𝐌𝐃🌐',
-        serverMessageId: 143
-      }
-    });
+    reply("❌ Failed to fetch lyrics. Try again later.");
   }
 });
