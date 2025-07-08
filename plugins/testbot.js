@@ -2,12 +2,12 @@ const { cmd } = require("../command");
 const fetch = require("node-fetch");
 
 cmd({
-  pattern: "lyrics11",
+  pattern: "lyrics",
   alias: ["lyric"],
   desc: "Get song lyrics from Genius",
   category: "music",
   use: "<song title>"
-}, async (m, user, msg, { text, prefix, command, reply }) => {
+}, async (zk, m, msg, { text, prefix, command, reply }) => {
   if (!text) {
     return reply(`Please provide a song title.\nExample: *${prefix + command} robbery*`);
   }
@@ -19,11 +19,7 @@ cmd({
     const response = await fetch(apiUrl);
     const data = await response.json();
 
-    if (
-      !data.result ||
-      !data.result.lyrics ||
-      data.result.lyrics.length === 0
-    ) {
+    if (!data.result || !data.result.lyrics || data.result.lyrics.length === 0) {
       return reply("❌ Lyrics not found.");
     }
 
@@ -39,15 +35,14 @@ cmd({
       }
     }
 
-    // TUMIA m.client KUTUMA UJUMBE NA contextInfo (jid)
-    await m.client.sendMessage(m.chat, {
+    await zk.sendMessage(m.chat, {
       text: message.trim(),
       contextInfo: {
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
           newsletterJid: "120363382023564830@newsletter",
-          newsletterName: "𝙱.𝙼.𝙱-𝚇𝙼𝙳",
+          newsletterName: "🌐𝐁.𝐌.𝐁-𝐗𝐌𝐃🌐",
           serverMessageId: 1
         }
       }
