@@ -39,7 +39,8 @@ cmd({
       }
     }
 
-    await m.sendMessage(m.chat, {
+    // TUMIA m.client KUTUMA UJUMBE NA contextInfo (jid)
+    await m.client.sendMessage(m.chat, {
       text: message.trim(),
       contextInfo: {
         forwardingScore: 999,
