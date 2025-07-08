@@ -2,7 +2,7 @@ const { cmd } = require("../command");
 const fetch = require("node-fetch");
 
 cmd({
-  pattern: "test11",
+  pattern: "lyrics11",
   alias: ["lyric"],
   desc: "Get song lyrics from Genius",
   category: "music",
@@ -45,17 +45,7 @@ cmd({
       }
     }
 
-    await msg.send(message.trim(), {
-      contextInfo: {
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: "120363382023564830@newsletter", // <-- Jid yako hapa
-          newsletterName: "𝙱.𝙼.𝙱-𝚇𝙼𝙳",                   // <-- Jina la channel yako
-          serverMessageId: 1
-        }
-      }
-    });
+    await reply(message.trim());
   } catch (error) {
     console.error(error);
     reply("❌ Failed to fetch lyrics. Try again later.");
