@@ -2,7 +2,7 @@ const { cmd } = require("../command");
 const fetch = require("node-fetch");
 
 cmd({
-  pattern: "lyrics11",
+  pattern: "lyrics",
   alias: ["lyric"],
   desc: "Get song lyrics from Genius",
   category: "music",
@@ -27,13 +27,7 @@ cmd({
       return reply("❌ Lyrics not found.");
     }
 
-    const {
-      title,
-      artist,
-      album,
-      url,
-      lyrics
-    } = data.result;
+    const { title, artist, album, url, lyrics } = data.result;
 
     let message = `🎵 *${title}*\n👤 Artist: ${artist}\n💿 Album: ${album}\n🔗 ${url}\n> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳*💫\n\n📄 *Lyrics:*\n`;
 
@@ -45,7 +39,19 @@ cmd({
       }
     }
 
-    await reply(message.trim());
+    await m.sendMessage(m.chat, {
+      text: message.trim(),
+      contextInfo: {
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: "120363382023564830@newsletter",
+          newsletterName: "𝙱.𝙼.𝙱-𝚇𝙼𝙳",
+          serverMessageId: 1
+        }
+      }
+    }, { quoted: m });
+
   } catch (error) {
     console.error(error);
     reply("❌ Failed to fetch lyrics. Try again later.");
