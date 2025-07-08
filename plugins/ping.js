@@ -1,77 +1,79 @@
-const config = require('../config');
-const { cmd, commands } = require('../command');
+const config = require("../config");
+const { cmd } = require("../command");
 
 cmd({
-    pattern: "ping",
-    alias: ["speed","pong"],use: '.ping',
-    desc: "Check bot's response time.",
-    category: "main",
-    react: "⚡",
-    filename: __filename
-},
-async (conn, mek, m, { from, quoted, sender, reply }) => {
+  pattern: "ping",
+  alias: ["speed", "pong"],
+  use: ".ping",
+  desc: "Check bot's response time.",
+  category: "main",
+  react: "🔥",
+  filename: __filename
+}, async (conn, mek, m, { from, quoted, sender, reply }) => {
+  try {
+    const start = Date.now();
+
+    const speedIcons = ['✅', '🟢', '✨', '📶', '🔋'];
+    const quotes = [
+      "✨Stay foolish to stay sane.✨",
+      "🟢The only way to do great work is to love what you do.🎀",
+      "❤️Simplicity is the ultimate sophistication.💞",
+      "🤔Your time is limited, so don’t waste it living someone else’s life.🥹",
+      "✅Innovation distinguishes between a leader and a follower📊.",
+      "📆Strive for greatness.🟢"
+    ];
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+
+    const end = Date.now();
+    const speed = end - start;
+
+    let status = "Stable";
+    if (speed > 1000) {
+      status = "Faster🔥";
+    } else if (speed > 500) {
+      status = "Moderate";
+    }
+
+    // Try to get profile picture
+    let pfp;
     try {
-        const start = new Date().getTime();
+      pfp = await conn.profilePictureUrl(sender, "image");
+    } catch {
+      pfp = "https://files.catbox.moe/v5we38.jpg";
+    }
 
-        const reactionEmojis = ['🔥', '⚡', '🚀', '💨', '🎯', '🎉', '🌟', '💥', '🕐', '🔹'];
-        const textEmojis = ['💎', '🏆', '⚡️', '🚀', '🎶', '🌠', '🌀', '🔱', '🛡️', '✨'];
+    // Compose message
+    const message = `
+┏━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ 🤖 *Bot Name:* ${config.botname || "𝗡𝗢𝗩𝗔-𝗫𝗠𝗗"}
+┣━━━━━━━━━━━━━━━━━━━━━━━
+┃ ⚡ *Speed:* ${speedIcons[Math.floor(Math.random() * speedIcons.length)]} ${speed}ms
+┣━━━━━━━━━━━━━━━━━━━━━━━ 
+┃ 📶 *Status:* ${speedIcons[Math.floor(Math.random() * speedIcons.length)]} ${status}
+┣━━━━━━━━━━━━━━━━━━━━━━━
+┃ ⏱️ *Checked At:* ${new Date().toLocaleTimeString()}
+┗━━━━━━━━━━━━━━━━━━━━━━━┛
+*${randomQuote}*
+    `.trim();
 
-        const reactionEmoji = reactionEmojis[Math.floor(Math.random() * reactionEmojis.length)];
-        let textEmoji = textEmojis[Math.floor(Math.random() * textEmojis.length)];
-
-        // Ensure reaction and text emojis are different
-        while (textEmoji === reactionEmoji) {
-            textEmoji = textEmojis[Math.floor(Math.random() * textEmojis.length)];
+    // Send final response
+    await conn.sendMessage(from, {
+      image: { url: pfp },
+      caption: message,
+      contextInfo: {
+        mentionedJid: [sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: "120363382023564830@newsletter",
+          newsletterName: "𝗡𝗢𝗩𝗔-𝗫𝗠𝗗",
+          serverMessageId: 143
         }
+      }
+    }, { quoted: mek });
 
-        // Send reaction using conn.sendMessage()
-        await conn.sendMessage(from, {
-            react: { text: textEmoji, key: mek.key }
-        });
-
-        const end = new Date().getTime();
-        const responseTime = (end - start) / 1000;
-
-        const text = `> *𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 SPEED: ${responseTime.toFixed(2)}ms ${reactionEmoji}*`;
-
-        await conn.sendMessage(from, {
-            text,
-            contextInfo: {
-                mentionedJid: [sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363382023564830@newsletter',
-                    newsletterName: "𝙽𝙾𝚅𝙰-𝚇𝙼𝙳",
-                    serverMessageId: 143
-                }
-            }
-        }, { quoted: mek });
-
-    } catch (e) {
-        console.error("Error in ping command:", e);
-        reply(`An error occurred: ${e.message}`);
-    }
+  } catch (err) {
+    console.error("Error in ping command:", err);
+    reply("An error occurred: " + err.message);
+  }
 });
-
-// ping2 
-
-cmd({
-    pattern: "ping2",
-    desc: "Check bot's response time.",
-    category: "main",
-    react: "🍂",
-    filename: __filename
-},
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
-    try {
-        const startTime = Date.now()
-        const message = await conn.sendMessage(from, { text: '*PINGING...*' })
-        const endTime = Date.now()
-        const ping = endTime - startTime
-        await conn.sendMessage(from, { text: `*☣️ 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 SPEED : ${ping}ms*` }, { quoted: message })
-    } catch (e) {
-        console.log(e)
-        reply(`${e}`)
-    }
-})
