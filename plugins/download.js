@@ -218,25 +218,23 @@ cmd({
 
 // apk-dl
 
+const axios = require('axios');
+
 cmd({
   pattern: "apk",
   desc: "Download APK from Aptoide.",
   category: "download",
   filename: __filename
-}, async (conn, m, store, {
-  from,
-  quoted,
-  q,
-  reply
-}) => {
+}, async (conn, m, store, { from, quoted, q, reply }) => {
   try {
     if (!q) {
       return reply("❌ Please provide an app name to search.");
     }
 
+    // React with hourglass while searching
     await conn.sendMessage(from, { react: { text: "⏳", key: m.key } });
 
-    const apiUrl = `http://ws75.aptoide.com/api/7/apps/search/query=${q}/limit=1`;
+    const apiUrl = `http://ws75.aptoide.com/api/7/apps/search/query=${encodeURIComponent(q)}/limit=1`;
     const response = await axios.get(apiUrl);
     const data = response.data;
 
@@ -245,26 +243,39 @@ cmd({
     }
 
     const app = data.datalist.list[0];
-    const appSize = (app.size / 1048576).toFixed(2); // Convert bytes to MB
+    const appSizeMB = (app.size / 1048576).toFixed(2); // bytes to MB
 
-    const caption = `╭━━━〔 *APK Downloader* 〕━━━┈⊷
-┃ 📦 *Name:* ${app.name}
-┃ 🏋 *Size:* ${appSize} MB
-┃ 📦 *Package:* ${app.package}
-┃ 📅 *Updated On:* ${app.updated}
-┃ 👨‍💻 *Developer:* ${app.developer.name}
-╰━━━━━━━━━━━━━━━┈⊷
-🔗 *Powered By 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗*`;
+    // Caption with box style and info
+    const caption = `┏━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ 📦 Name: ${app.name}
+┣━━━━━━━━━━━━━━━━━━━━━━━
+┃ 🏋 Size: ${appSizeMB} MB
+┣━━━━━━━━━━━━━━━━━━━━━━━
+┃ 📦 Package: ${app.package}
+┣━━━━━━━━━━━━━━━━━━━━━━━
+┃ 📅 Updated On: ${app.updated}
+┣━━━━━━━━━━━━━━━━━━━━━━━
+┃ 👨‍💻 Developer: ${app.developer.name}
+┗━━━━━━━━━━━━━━━━━━━━━━━
+🔗 Powered by 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗`;
 
+    // Send reaction that file is coming
     await conn.sendMessage(from, { react: { text: "⬆️", key: m.key } });
 
+    // Send image + caption (app icon + info)
+    await conn.sendMessage(from, {
+      image: { url: app.icon },
+      caption
+    }, { quoted: m });
+
+    // Send APK file as document
     await conn.sendMessage(from, {
       document: { url: app.file.path_alt },
       fileName: `${app.name}.apk`,
       mimetype: "application/vnd.android.package-archive",
-      caption: caption
     }, { quoted: m });
 
+    // Send success reaction
     await conn.sendMessage(from, { react: { text: "✅", key: m.key } });
 
   } catch (error) {
@@ -305,7 +316,7 @@ cmd({
         document: { url: downloadUrl },
         mimetype: response.data.result.mimetype,
         fileName: response.data.result.fileName,
-        caption: "*© Powered By JawadTechX*"
+        caption: "*© Powered By 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗*"
       }, { quoted: m });
 
       await conn.sendMessage(from, { react: { text: "✅", key: m.key } });
