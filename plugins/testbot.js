@@ -2,12 +2,12 @@ const { cmd } = require("../command");
 const fetch = require("node-fetch");
 
 cmd({
-  pattern: "lyrics11",
+  pattern: "lyrics",
   alias: ["lyric"],
   desc: "Get song lyrics from Genius",
   category: "music",
   use: "<song title>",
-  reaction: "🎙️" 
+  reaction: "🎙️"
 }, async (zk, m, msg, { text, prefix, command, reply }) => {
   if (!text) {
     return reply(`Please provide a song title.\nExample: *${prefix + command} robbery*`);
@@ -26,15 +26,30 @@ cmd({
 
     const { title, artist, album, url, lyrics } = data.result;
 
-    let message = `🎵 *${title}*\n👤 Artist: ${artist}\n💿 Album: ${album}\n🔗 ${url}\n> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳*💫\n\n📄 *Lyrics:*\n`;
+    // Jenga kibox cha message
+    let message = `┏━━━━━━━━━━━━━━━━━━━━━━━┓\n`;
+    message += `┃ 🎵 *${title}*\n`;
+    message += `┣━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `┃ 👤 Artist: ${artist}\n`;
+    message += `┣━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `┃ 💿 Album: ${album}\n`;
+    message += `┣━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `┃ 🔗 ${url}\n`;
+    message += `┣━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `┃ > *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳*💫\n`;
+    message += `┣━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `┃ 📄 *Lyrics:*\n`;
 
+    // Ongeza mistari ya lyrics ndani ya box
     for (const line of lyrics) {
       if (line.type === "header") {
-        message += `\n\n*${line.text}*\n`;
+        message += `┃ \n┃ *${line.text}*\n`;
       } else {
-        message += `${line.text}\n`;
+        message += `┃ ${line.text}\n`;
       }
     }
+
+    message += `┗━━━━━━━━━━━━━━━━━━━━━━━┛`;
 
     await zk.sendMessage(m.chat, {
       text: message.trim(),
