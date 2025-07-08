@@ -2,7 +2,7 @@ const { cmd } = require("../command");
 const fetch = require("node-fetch");
 
 cmd({
-  pattern: "lyrics",
+  pattern: "lyrics11",
   alias: ["lyric"],
   desc: "Get song lyrics from Genius",
   category: "music",
