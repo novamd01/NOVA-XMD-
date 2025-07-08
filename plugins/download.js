@@ -217,9 +217,6 @@ cmd({
 });
 
 // apk-dl
-
-const axios = require('axios');
-
 cmd({
   pattern: "apk",
   desc: "Download APK from Aptoide.",
