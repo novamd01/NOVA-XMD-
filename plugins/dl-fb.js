@@ -1,91 +1,73 @@
-const axios = require("axios");
 const { cmd } = require("../command");
 
-// ========== FACEBOOK HD ==========
+// ======== FB HD ========== //
 cmd({
-  pattern: "fb11",
-  alias: ["facebook"],
-  desc: "Download Facebook video (HD)",
+  pattern: "fb",
+  alias: [],
+  desc: "Download Facebook video (HD quality)",
   category: "download",
-  filename: __filename
-}, async ({ m, args, sock, repondre }) => {
-  if (!args[0]) return repondre("🔗 Please provide a Facebook video URL!");
+  use: "<facebook video link>",
+  reaction: "📽️"
+}, async (zk, m, msg, { args, reply }) => {
+  if (!args[0]) return reply("Insert a public Facebook video link!");
 
+  const queryURL = args.join(" ");
   try {
-    const data = await getFBInfo(args.join(" "));
-    await sock.sendMessage(m.jid, {
-      image: { url: data.thumbnail },
-      caption: `🎥 *${data.title}*\n🔗 ${data.url}`
-    }, { quoted: m });
+    getFBInfo(queryURL)
+      .then(async (result) => {
+        const caption = `🎬 *Title:* ${result.title}\n🔗 *Link:* ${result.url}`;
+        await zk.sendMessage(m.chat, {
+          image: { url: result.thumbnail },
+          caption
+        }, { quoted: m });
 
-    await sock.sendMessage(m.jid, {
-      video: { url: data.hd },
-      caption: "Facebook HD video powered by B.M.B-TECH"
-    }, { quoted: m });
-
-  } catch (e) {
-    repondre("❌ Failed to fetch video. Try `.fb2` instead.");
+        await zk.sendMessage(m.chat, {
+          video: { url: result.hd },
+          caption: "✅ Facebook HD video downloader\n🔧 Powered by B.M.B TECH"
+        }, { quoted: m });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        reply("⚠️ Try using *fb2* on this link.");
+      });
+  } catch (error) {
+    console.error("Video download error:", error);
+    reply("❌ An error occurred while downloading the video.");
   }
 });
 
-// ========== FACEBOOK SD ==========
+// ======== FB SD (fb2) ========== //
 cmd({
   pattern: "fb2",
-  desc: "Download Facebook video (SD)",
+  alias: [],
+  desc: "Download Facebook video (SD quality)",
   category: "download",
-  filename: __filename
-}, async ({ m, args, sock, repondre }) => {
-  if (!args[0]) return repondre("🔗 Provide a Facebook video URL!");
+  use: "<facebook video link>",
+  reaction: "📽️"
+}, async (zk, m, msg, { args, reply }) => {
+  if (!args[0]) return reply("Insert a public Facebook video link!");
 
+  const queryURL = args.join(" ");
   try {
-    const data = await getFBInfo(args.join(" "));
-    await sock.sendMessage(m.jid, {
-      image: { url: data.thumbnail },
-      caption: `🎥 *${data.title}*\n🔗 ${data.url}`
-    }, { quoted: m });
+    getFBInfo(queryURL)
+      .then(async (result) => {
+        const caption = `🎬 *Title:* ${result.title}\n🔗 *Link:* ${result.url}`;
+        await zk.sendMessage(m.chat, {
+          image: { url: result.thumbnail },
+          caption
+        }, { quoted: m });
 
-    await sock.sendMessage(m.jid, {
-      video: { url: data.sd },
-      caption: "Facebook SD video powered by B.M.B-TECH"
-    }, { quoted: m });
-
-  } catch (e) {
-    repondre("❌ Couldn't get SD video.");
+        await zk.sendMessage(m.chat, {
+          video: { url: result.sd },
+          caption: "📥 Facebook SD video downloader\n🔧 Powered by B.M.B TECH"
+        }, { quoted: m });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        reply("❌ Failed: " + (error.message || error));
+      });
+  } catch (error) {
+    console.error("Video download error:", error);
+    reply("❌ An error occurred while downloading the video.");
   }
 });
-
-// ========== TIKTOK ==========
-cmd({
-  pattern: "tiktok22",
-  desc: "Download TikTok video",
-  category: "download",
-  filename: __filename
-}, async ({ m, args, sock, repondre }) => {
-  if (!args[0]) return repondre("🎵 Please provide a TikTok video link.");
-
-  try {
-    const api = `https://api.onesytex.my.id/api/tiktok-dl=${encodeURIComponent(args.join(" "))}`;
-    const { data } = await axios.get(api);
-    const vid = data.data;
-
-    await sock.sendMessage(m.jid, {
-      video: { url: vid.links[0].a },
-      caption: `👤 ${vid.author}\n📝 ${vid.desc}`
-    }, { quoted: m });
-
-  } catch (e) {
-    repondre("❌ Failed to download TikTok video.");
-  }
-});
-
-// ========== FB HELPER ==========
-async function getFBInfo(url) {
-  const { data } = await axios.get(`https://api.myfbdownloader.com?url=${encodeURIComponent(url)}`);
-  return {
-    title: data.title,
-    url: data.url,
-    thumbnail: data.thumbnail,
-    hd: data.hd,
-    sd: data.sd
-  };
-      }
