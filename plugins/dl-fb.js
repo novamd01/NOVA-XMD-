@@ -7,113 +7,85 @@ cmd({
   alias: ["facebook"],
   desc: "Download Facebook video (HD)",
   category: "download",
-  use: "<facebook_video_url>",
-  filename: __filename,
+  filename: __filename
 }, async ({ m, args, sock, repondre }) => {
-  if (!args[0]) return repondre("Insert a public Facebook video link!");
+  if (!args[0]) return repondre("🔗 Please provide a Facebook video URL!");
 
-  const queryURL = args.join(" ");
   try {
-    const result = await getFBInfo(queryURL);
-
-    let caption = `
-🎥 Title: ${result.title}
-🔗 Link: ${result.url}
-`;
-
+    const data = await getFBInfo(args.join(" "));
     await sock.sendMessage(m.jid, {
-      image: { url: result.thumbnail },
-      caption,
+      image: { url: data.thumbnail },
+      caption: `🎥 *${data.title}*\n🔗 ${data.url}`
     }, { quoted: m });
 
     await sock.sendMessage(m.jid, {
-      video: { url: result.hd },
-      caption: 'Facebook video downloader powered by B.M.B-TECH',
+      video: { url: data.hd },
+      caption: "Facebook HD video powered by B.M.B-TECH"
     }, { quoted: m });
 
   } catch (e) {
-    console.error("FB Error:", e);
-    repondre("Try using the command: .fb2 if this fails.");
+    repondre("❌ Failed to fetch video. Try `.fb2` instead.");
   }
 });
 
 // ========== FACEBOOK SD ==========
 cmd({
   pattern: "fb2",
-  alias: ["facebooksd"],
   desc: "Download Facebook video (SD)",
   category: "download",
-  use: "<facebook_video_url>",
-  filename: __filename,
+  filename: __filename
 }, async ({ m, args, sock, repondre }) => {
-  if (!args[0]) return repondre("Insert a public Facebook video link!");
+  if (!args[0]) return repondre("🔗 Provide a Facebook video URL!");
 
-  const queryURL = args.join(" ");
   try {
-    const result = await getFBInfo(queryURL);
-
-    let caption = `
-🎥 Title: ${result.title}
-🔗 Link: ${result.url}
-`;
-
+    const data = await getFBInfo(args.join(" "));
     await sock.sendMessage(m.jid, {
-      image: { url: result.thumbnail },
-      caption,
+      image: { url: data.thumbnail },
+      caption: `🎥 *${data.title}*\n🔗 ${data.url}`
     }, { quoted: m });
 
     await sock.sendMessage(m.jid, {
-      video: { url: result.sd },
-      caption: 'Facebook video downloader powered by B.M.B-TECH',
+      video: { url: data.sd },
+      caption: "Facebook SD video powered by B.M.B-TECH"
     }, { quoted: m });
 
   } catch (e) {
-    console.error("FB2 Error:", e);
-    repondre("Failed to get Facebook video.");
+    repondre("❌ Couldn't get SD video.");
   }
 });
 
 // ========== TIKTOK ==========
 cmd({
-  pattern: "tiktok11",
-  alias: ["tt"],
+  pattern: "tiktok22",
   desc: "Download TikTok video",
   category: "download",
-  use: "<tiktok_video_url>",
-  filename: __filename,
-}, async ({ m, args, sock, prefix, repondre }) => {
-  if (!args[0]) return repondre(`How to use:\n${prefix}tiktok <tiktok_video_link>`);
-
-  const videoUrl = args.join(" ");
+  filename: __filename
+}, async ({ m, args, sock, repondre }) => {
+  if (!args[0]) return repondre("🎵 Please provide a TikTok video link.");
 
   try {
-    const res = await axios.get(`https://api.onesytex.my.id/api/tiktok-dl=${encodeURIComponent(videoUrl)}`);
-    const tik = res.data.data;
-
-    const caption = `
-👤 Author: ${tik.author}
-📝 Description: ${tik.desc}
-`;
+    const api = `https://api.onesytex.my.id/api/tiktok-dl=${encodeURIComponent(args.join(" "))}`;
+    const { data } = await axios.get(api);
+    const vid = data.data;
 
     await sock.sendMessage(m.jid, {
-      video: { url: tik.links[0].a },
-      caption,
+      video: { url: vid.links[0].a },
+      caption: `👤 ${vid.author}\n📝 ${vid.desc}`
     }, { quoted: m });
 
-  } catch (error) {
-    console.error("TikTok Error:", error);
-    repondre("Failed to download TikTok video.");
+  } catch (e) {
+    repondre("❌ Failed to download TikTok video.");
   }
 });
 
-// ========== HELPER FUNCTION ==========
+// ========== FB HELPER ==========
 async function getFBInfo(url) {
-  const res = await axios.get(`https://api.myfbdownloader.com?url=${encodeURIComponent(url)}`);
+  const { data } = await axios.get(`https://api.myfbdownloader.com?url=${encodeURIComponent(url)}`);
   return {
-    title: res.data.title,
-    url: res.data.url,
-    thumbnail: res.data.thumbnail,
-    hd: res.data.hd,
-    sd: res.data.sd
+    title: data.title,
+    url: data.url,
+    thumbnail: data.thumbnail,
+    hd: data.hd,
+    sd: data.sd
   };
-    }
+      }
