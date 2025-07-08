@@ -1,30 +1,37 @@
 const { cmd } = require("../command");
 
 cmd({
-  pattern: "getpp1",
-  alias: [],
+  pattern: "getpp",
+  alias: ["pp", "profilepic"],
   desc: "Get profile picture of replied user",
-  category: "General",
-  use: "",
-  filename: __filename
+  category: "general",
+  reaction: "📷"
 }, async (zk, m, msg, { reply }) => {
   if (!m.quoted) {
-    return reply("❌ Reply to a user's message to get their profile picture.");
+    return reply("❌ Please reply to someone's message to get their profile picture.");
   }
 
-  const userJid = m.quoted.sender;
+  const target = m.quoted.sender;
 
-  let profilePic;
   try {
-    profilePic = await zk.profilePictureUrl(userJid, 'image');
-  } catch {
-    profilePic = "https://i.ibb.co/sR0p7p6/default.jpg"; // fallback image
-    await reply("❗ Couldn't fetch user's profile picture. Sending default image.");
-  }
+    // Try fetching profile pic
+    let pfp = await zk.profilePictureUrl(target, "image");
 
-  await zk.sendMessage(m.chat, {
-    image: { url: profilePic },
-    caption: `✅ Here's @${userJid.split('@')[0]}'s profile pic.`,
-    mentions: [userJid]
-  }, { quoted: m });
+    await zk.sendMessage(m.chat, {
+      image: { url: pfp },
+      caption: `📸 *Profile pic of @${target.split("@")[0]}*`,
+      mentions: [target]
+    }, { quoted: m });
+
+  } catch (err) {
+    // If locked or error, fallback image
+    await reply(`⚠️ Couldn't fetch profile picture. Maybe it's private.\nSending default image.`);
+
+    let fallback = "https://telegra.ph/file/74d920a5a9f45b9bcb2a9.jpg"; // bad fallback pic
+    await zk.sendMessage(m.chat, {
+      image: { url: fallback },
+      caption: `📸 *Default pic since @${target.split("@")[0]}'s pic is locked*`,
+      mentions: [target]
+    }, { quoted: m });
+  }
 });
