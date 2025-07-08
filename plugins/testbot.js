@@ -2,11 +2,12 @@ const { cmd } = require("../command");
 const fetch = require("node-fetch");
 
 cmd({
-  pattern: "lyrics11",
+  pattern: "lyrics",
   alias: ["lyric"],
   desc: "Get song lyrics from Genius",
   category: "music",
-  use: "<song title>"
+  use: "<song title>",
+  reaction: "🎙️" 
 }, async (zk, m, msg, { text, prefix, command, reply }) => {
   if (!text) {
     return reply(`Please provide a song title.\nExample: *${prefix + command} robbery*`);
