@@ -19,23 +19,22 @@ cmd({
   try {
     let code = args[0];
     if (!code) return reply("❌ Please provide a country code. Example: `.check 255`");
-
-    // Toa alama ya +
     code = code.replace(/\+/g, '');
 
-    // Tumia API yako ya render
-    const apiUrl = `https://country-code-tefd.onrender.com/check/${code}`;
-    const { data } = await axios.get(apiUrl);
+    const url = "https://country-code-1-hmla.onrender.com/countries"; // API yako
+    const { data } = await axios.get(url);
+
+    const matchingCountries = data.filter(country => country.calling_code === code);
 
     const jid = m.sender;
 
-    if (data && Array.isArray(data) && data.length > 0) {
-      const countryList = data
-        .map(country => `${getFlagEmoji(country.code)} ${country.name}`)
+    if (matchingCountries.length > 0) {
+      const countryNames = matchingCountries
+        .map(c => `${getFlagEmoji(c.code)} ${c.name}`)
         .join("\n");
 
       await conn.sendMessage(from, {
-        text: `✅ *Country Code:* ${code}\n🌍 *Countries:*\n${countryList}\n\n👤 *JID:* ${jid}`,
+        text: `✅ *Country Code:* ${code}\n🌍 *Countries:*\n${countryNames}\n\n👤 *JID:* ${jid}`,
         contextInfo: {
           mentionedJid: [jid],
           forwardingScore: 999,
@@ -50,7 +49,6 @@ cmd({
     } else {
       reply(`❌ No country found for the code ${code}.\n👤 *JID:* ${jid}`);
     }
-
   } catch (error) {
     console.error(error);
     reply("❌ An error occurred while checking the country code.");
