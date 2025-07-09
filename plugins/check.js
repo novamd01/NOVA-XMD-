@@ -27,6 +27,7 @@ Example: .check 255
     const url = "https://country-code-1-hmla.onrender.com/countries";
     const { data } = await axios.get(url);
     const matchingCountries = data.filter(country => country.calling_code === code);
+    const jid = m.sender;
 
     if (matchingCountries.length > 0) {
       const countryNames = matchingCountries
@@ -38,8 +39,11 @@ Example: .check 255
 ✅ *Country Code:* ${code}
 🌍 *Countries:*
 ${countryNames}
+
+👤 *JID:* ${jid}
 ┗━━━━━━━━━━━━━━━━━━━━━┛`,
         contextInfo: {
+          mentionedJid: [jid],
           forwardingScore: 999,
           isForwarded: true,
           forwardedNewsletterMessageInfo: {
@@ -52,6 +56,7 @@ ${countryNames}
     } else {
       reply(`┏━━━━━━━━━━━━━━━━━━━━━┓
 ❌ No country found for the code ${code}.
+👤 *JID:* ${jid}
 ┗━━━━━━━━━━━━━━━━━━━━━┛`);
     }
   } catch (error) {
