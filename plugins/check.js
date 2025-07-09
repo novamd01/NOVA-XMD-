@@ -1,34 +1,12 @@
+const axios = require("axios");
 const { cmd } = require("../command");
-
-const countries = [
-  { name: "Afghanistan", code: "AF", calling_code: "93" },
-  { name: "Albania", code: "AL", calling_code: "355" },
-  { name: "Algeria", code: "DZ", calling_code: "213" },
-  { name: "Andorra", code: "AD", calling_code: "376" },
-  { name: "Angola", code: "AO", calling_code: "244" },
-  { name: "Argentina", code: "AR", calling_code: "54" },
-  { name: "Australia", code: "AU", calling_code: "61" },
-  { name: "Brazil", code: "BR", calling_code: "55" },
-  { name: "Canada", code: "CA", calling_code: "1" },
-  { name: "China", code: "CN", calling_code: "86" },
-  { name: "France", code: "FR", calling_code: "33" },
-  { name: "Germany", code: "DE", calling_code: "49" },
-  { name: "India", code: "IN", calling_code: "91" },
-  { name: "Kenya", code: "KE", calling_code: "254" },
-  { name: "Nigeria", code: "NG", calling_code: "234" },
-  { name: "South Africa", code: "ZA", calling_code: "27" },
-  { name: "Tanzania", code: "TZ", calling_code: "255" },
-  { name: "Uganda", code: "UG", calling_code: "256" },
-  { name: "United Kingdom", code: "GB", calling_code: "44" },
-  { name: "United States", code: "US", calling_code: "1" }
-];
 
 function getFlagEmoji(countryCode) {
   if (!countryCode) return "";
   return countryCode
     .toUpperCase()
     .split("")
-    .map(c => String.fromCodePoint(c.charCodeAt(0) + 127397))
+    .map(letter => String.fromCodePoint(letter.charCodeAt(0) + 127397))
     .join("");
 }
 
@@ -40,20 +18,46 @@ cmd({
 }, async (conn, mek, m, { from, args, reply }) => {
   try {
     let code = args[0];
-    if (!code) return reply("❌ Please provide a country calling code. Example: `.check 254`");
+    if (!code) return reply(`┏━━━━━━━━━━━━━━━━━━━━━┓
+❌ Please provide a country code.
+Example: .check 255
+┗━━━━━━━━━━━━━━━━━━━━━┛`);
 
-    code = code.replace(/\+/g, '').trim();
+    code = code.replace(/\+/g, '');
+    const url = "https://country-code-1-hmla.onrender.com/countries";
+    const { data } = await axios.get(url);
+    const matchingCountries = data.filter(country => country.calling_code === code);
 
-    const foundCountries = countries.filter(c => c.calling_code === code);
+    if (matchingCountries.length > 0) {
+      const countryNames = matchingCountries
+        .map(c => `${getFlagEmoji(c.code)} ${c.name}`)
+        .join("\n");
 
-    if (foundCountries.length > 0) {
-      const list = foundCountries.map(c => `${getFlagEmoji(c.code)} ${c.name}`).join("\n");
-      return reply(`✅ Country Code: ${code}\n🌍 Countries:\n${list}`);
+      await conn.sendMessage(from, {
+        text: `┏━━━━━━━━━━━━━━━━━━━━━┓
+✅ *Country Code:* ${code}
+🌍 *Countries:*
+${countryNames}
+┗━━━━━━━━━━━━━━━━━━━━━┛`,
+        contextInfo: {
+          forwardingScore: 999,
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: "120363382023564830@newsletter",
+            newsletterName: "𝙽𝙾𝚅𝙰-𝚇𝙼𝙳",
+            serverMessageId: 1
+          }
+        }
+      }, { quoted: mek });
     } else {
-      return reply(`❌ No countries found with the calling code ${code}`);
+      reply(`┏━━━━━━━━━━━━━━━━━━━━━┓
+❌ No country found for the code ${code}.
+┗━━━━━━━━━━━━━━━━━━━━━┛`);
     }
   } catch (error) {
     console.error(error);
-    reply("❌ An error occurred while processing your request.");
+    reply(`┏━━━━━━━━━━━━━━━━━━━━━┓
+❌ An error occurred while checking the country code.
+┗━━━━━━━━━━━━━━━━━━━━━┛`);
   }
 });
