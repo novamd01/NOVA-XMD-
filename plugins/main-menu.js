@@ -40,22 +40,21 @@ cmd({
   }) => {
     try {
 
-      // Tayarisha random image kutoka folder ya `scs/menu1.jpg` hadi `menu10.jpg`
       const randomIndex = Math.floor(Math.random() * 10) + 1;
       const imagePath = path.join(__dirname, '..', 'scs', `menu${randomIndex}.jpg`);
       const imageBuffer = fs.readFileSync(imagePath);
 
       let dec = `
-🔰━━━ *${config.BOT_NAME}* ━━━🔰
-╭–––––––––––––––––––––––––
-│👑 *ʀᴜɴᴛɪᴍᴇ:* ${runtime(process.uptime())}
-│🕹️ *ᴍᴏᴅᴇ:* *${config.MODE}*
-│🎯 *ᴘʀᴇғɪx:* *${config.PREFIX}*
-│💡 *ʀᴀᴍ ᴜsᴇ:* ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} GB / ${Math.round(require('os').totalmem / 1024 / 1024)} GB
-│👑 *ᴅᴇᴠ:* *𝙽𝙾𝚅𝙰-𝚇𝙼𝙳*
-│🚀 *ᴠᴇʀsɪᴏɴ:* *1.0.0*
-╰–––––––––––––––––––––––––
-> ©dev 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳
+╭━〔*🔰 𝗡𝗢𝗩𝗔-𝗫𝗠𝗗 🔰*〕━━┈⊷
+┃❒╭────────────
+┃❒│ 👑 *ʀᴜɴᴛɪᴍᴇ:* ${runtime(process.uptime())}
+┃❒│ 🕹️ *ᴍᴏᴅᴇ:* *${config.MODE}*
+┃❒│ 🎯 *ᴘʀᴇғɪx:* *${config.PREFIX}*
+┃❒│ 💡 *ʀᴀᴍ ᴜsᴇ:* ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} GB / ${Math.round(require('os').totalmem / 1024 / 1024)} GB
+┃❒│ 👑 *ᴅᴇᴠ:* *𝙱.𝙼.𝙱-𝚃𝙴𝙲𝙷*
+┃❒│ 🚀 *ᴠᴇʀsɪᴏɴ:* *1.0.0*
+┃❒╰────────────────
+╰━━━━━━━━━━━━━━━━━━┈⊷
 
 ---
 📚 *DOWNLOAD COMMANDS*
@@ -69,7 +68,6 @@ cmd({
 * 🎧 .mediafire
 * 🎧 .play
 * 🎧 .song
-* 🎧 .video
 * 🎧 .spotify
 * 🎧 .video4
 * 🎧 .img
@@ -234,8 +232,6 @@ cmd({
 * ⚡ .movie
 * ⚡ .terminate
 * ⚡ .family
-* ⚡ .trt
-* ⚡ .tts
 
 ---
 🎲 *RANDOM COMMANDS*
@@ -278,9 +274,8 @@ cmd({
 * 🌐 .define
 * 🌐 .dailyfact
 
-> ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳🔥`;
+> ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝙱.𝙼.𝙱-𝚃𝙴𝙲𝙷🔥`;
 
-      // Tuma menu image + menu text
       await conn.sendMessage(
         from,
         {
@@ -292,20 +287,13 @@ cmd({
             isForwarded: true,
             forwardedNewsletterMessageInfo: {
               newsletterJid: '120363382023564830@newsletter',
-              newsletterName: '𝙽𝙾𝚅𝙰-𝚇𝙼𝙳',
+              newsletterName: '𝙱.𝙼.𝙱-𝚃𝙴𝙲𝙷',
               serverMessageId: 143
             }
           }
         },
         { quoted: mek }
       );
-
-      // Tuma audio kama PTT
-      await conn.sendMessage(from, {
-        audio: { url: 'https://files.catbox.moe/kxdej4.m4a' },
-        mimetype: 'audio/mp4',
-        ptt: true
-      }, { quoted: mek });
 
     } catch (e) {
       console.log(e);
