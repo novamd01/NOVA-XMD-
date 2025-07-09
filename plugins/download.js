@@ -2,13 +2,13 @@ const { fetchJson } = require("../lib/functions");
 const { cmd } = require('../command');
 const axios = require("axios");
 
-// Shared context info for all downloads
+// Forwarded newsletter context info (inatumika kwa kila sendMessage)
 const contextInfo = {
   forwardingScore: 999,
   isForwarded: true,
   forwardedNewsletterMessageInfo: {
     newsletterJid: "120363382023564830@newsletter",
-    newsletterName: "𝙱.𝙼.𝙱-𝚇𝙼𝙳",
+    newsletterName: "𝙱.𝙼.𝙱-𝚇𝗠𝗗",
     serverMessageId: 1
   }
 };
@@ -96,7 +96,8 @@ cmd({
 
     await conn.sendMessage(from, {
       image: { url: app.icon },
-      caption
+      caption,
+      contextInfo
     }, { quoted: m });
 
     await conn.sendMessage(from, {
