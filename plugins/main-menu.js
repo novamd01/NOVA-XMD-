@@ -11,7 +11,7 @@ cmd({
   use: '.menu',
   desc: "menu the bot",
   category: "menu",
-  react: "📱",
+  react: "🔰",
   filename: __filename
 },
   async (conn, mek, m, {
@@ -57,222 +57,222 @@ cmd({
 ╰━━━━━━━━━━━━━━━━━━┈⊷
 
 ---
-📚 *DOWNLOAD COMMANDS*
+📚 *ᴅᴏᴡɴʟᴏᴀᴅ ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* 🎧 .fb
-* 🎧 .insta
-* 🎧 .video
-* 🎧 .gdrive
-* 🎧 .twitter
-* 🎧 .tt
-* 🎧 .mediafire
-* 🎧 .play
-* 🎧 .song
-* 🎧 .spotify
-* 🎧 .video4
-* 🎧 .img
-* 🎧 .lyrics
-* 🎧 .apk
-* 🎧 .baiscope
-* 🎧 .ginisisila
+* 🎧 .ғʙ
+* 🎧 .ɪɴsᴛᴀ
+* 🎧 .ᴠɪᴅᴇᴏ
+* 🎧 .ɢᴅʀɪᴠᴇ
+* 🎧 .ᴛᴡɪᴛᴛᴇʀ
+* 🎧 .ᴛᴛ
+* 🎧 .ᴍᴇᴅɪᴀғɪʀᴇ
+* 🎧 .ᴘʟᴀʏ
+* 🎧 .sᴏɴɢ
+* 🎧 .sᴘᴏᴛɪғʏ
+* 🎧 .ᴠɪᴅᴇᴏ4
+* 🎧 .ɪᴍɢ
+* 🎧 .ʟʏʀɪᴄs
+* 🎧 .ᴀᴘᴋ
+* 🎧 .ʙᴀɪsᴄᴏᴘᴇ
+* 🎧 .ɢɪɴɪsɪsɪʟᴀ
 
 ---
-🔍 *SEARCH COMMANDS*
+🔍 *sᴇᴀʀᴄʜ ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* 🔎 .yts
-* 🔎 .yta
-* 🔎 .movie
-* 🔎 .romance
-* 🔎 .motivate
-* 🔎 .aivoice
-* 🔎 .google
-* 🔎 .weather
-* 🔎 .sticksearch
+* 🔎 .ʏᴛs
+* 🔎 .ʏᴛᴀ
+* 🔎 .ᴍᴏᴠɪᴇ
+* 🔎 .ʀᴏᴍᴀɴᴄᴇ
+* 🔎 .ᴍᴏᴛɪᴠᴀᴛᴇ
+* 🔎 .ᴀɪᴠᴏɪᴄᴇ
+* 🔎 .ɢᴏᴏɢʟᴇ
+* 🔎 .ᴡᴇᴀᴛʜᴇʀ
+* 🔎 .sᴛɪᴄᴋsᴇᴀʀᴄʜ
 
 ---
-🎨 *LOGO COMMANDS*
+🎨 *ʟᴏɢᴏ ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* 🔴 .3dcomic
-* 🔴 .dragonball
-* 🔴 .deadpool
-* 🔴 .blackpink
-* 🔴 .neonlight
-* 🔴 .cat
-* 🔴 .sadgirl
-* 🔴 .pornhub
-* 🔴 .naruto
-* 🔴 .thor
-* 🔴 .america
-* 🔴 .eraser
-* 🔴 .3dpaper
-* 🔴 .futuristic
-* 🔴 .clouds
-* 🔴 .sans
-* 🔴 .galaxy
-* 🔴 .leaf
-* 🔴 .sunset
-* 🔴 .nigeria
-* 🔴 .devilwings
-* 🔴 .hacker
-* 🔴 .boom
-* 🔴 .luxury
-* 🔴 .zodiac
-* 🔴 .angelwings
-* 🔴 .bulb
-* 🔴 .tattoo
-* 🔴 .castle
-* 🔴 .frozen
-* 🔴 .paint
-* 🔴 .birthday
-* 🔴 .typography
-* 🔴 .bear
-* 🔴 .valorant
+* 🔴 .3ᴅᴄᴏᴍɪᴄ
+* 🔴 .ᴅʀᴀɢᴏɴʙᴀʟʟ
+* 🔴 .ᴅᴇᴀᴅᴘᴏᴏʟ
+* 🔴 .ʙʟᴀᴄᴋᴘɪɴᴋ
+* 🔴 .ɴᴇᴏɴʟɪɢʜᴛ
+* 🔴 .ᴄᴀᴛ
+* 🔴 .sᴀᴅɢɪʀʟ
+* 🔴 .ᴘᴏʀɴʜᴜʙ
+* 🔴 .ɴᴀʀᴜᴛᴏ
+* 🔴 .ᴛʜᴏʀ
+* 🔴 .ᴀᴍᴇʀɪᴄᴀ
+* 🔴 .ᴇʀᴀsᴇʀ
+* 🔴 .3ᴅᴘᴀᴘᴇʀ
+* 🔴 .ғᴜᴛᴜʀɪsᴛɪᴄ
+* 🔴 .ᴄʟᴏᴜᴅs
+* 🔴 .sᴀɴs
+* 🔴 .ɢᴀʟᴀxʏ
+* 🔴 .ʟᴇᴀғ
+* 🔴 .sᴜɴsᴇᴛ
+* 🔴 .ɴɪɢᴇʀɪᴀ
+* 🔴 .ᴅᴇᴠɪʟᴡɪɴɢs
+* 🔴 .ʜᴀᴄᴋᴇʀ
+* 🔴 .ʙᴏᴏᴍ
+* 🔴 .ʟᴜxᴜʀʏ
+* 🔴 .ᴢᴏᴅɪᴀᴄ
+* 🔴 .ᴀɴɢᴇʟᴡɪɴɢs
+* 🔴 .ʙᴜʟʙ
+* 🔴 .ᴛᴀᴛᴛᴏᴏ
+* 🔴 .ᴄᴀsᴛʟᴇ
+* 🔴 .ғʀᴏᴢᴇɴ
+* 🔴 .ᴘᴀɪɴᴛ
+* 🔴 .ʙɪʀᴛʜᴅᴀʏ
+* 🔴 .ᴛʏᴘᴏɢʀᴀᴘʜʏ
+* 🔴 .ʙᴇᴀʀ
+* 🔴 .ᴠᴀʟᴏʀᴀɴᴛ
 
 ---
-🧠 *AI COMMANDS*
+🧠 *ᴀɪ ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* 🤖 .gpt
-* 🤖 .ai
-* 🤖 .imagescan
-* 🤖 .imagine
+* 🤖 .ɢᴘᴛ
+* 🤖 .ᴀɪ
+* 🤖 .ɪᴍᴀɢᴇsᴄᴀɴ
+* 🤖 .ɪᴍᴀɢɪɴᴇ
 
 ---
-👑 *OWNER COMMANDS*
+👑 *ᴏᴡɴᴇʀ ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* 👑 .updatecmd
-* 👑 .settings
-* 👑 .owner
-* 👑 .repo
-* 👑 .system
-* 👑 .status
-* 👑 .about
-* 👑 .block
-* 👑 .unblock
-* 👑 .shutdown
-* 👑 .broadcast
-* 👑 .jid
-* 👑 .gjid
-* 👑 .pair
-* 👑 .save
-* 👑 .getpp
-* 👑 .restart
+* 👑 .ᴜᴘᴅᴀᴛᴇᴄᴍᴅ
+* 👑 .sᴇᴛᴛɪɴɢs
+* 👑 .ᴏᴡɴᴇʀ
+* 👑 .ʀᴇᴘᴏ
+* 👑 .sʏsᴛᴇᴍ
+* 👑 .sᴛᴀᴛᴜs
+* 👑 .ᴀʙᴏᴜᴛ
+* 👑 .ʙʟᴏᴄᴋ
+* 👑 .ᴜɴʙʟᴏᴄᴋ
+* 👑 .sʜᴜᴛᴅᴏᴡɴ
+* 👑 .ʙʀᴏᴀᴅᴄᴀsᴛ
+* 👑 .ᴊɪᴅ
+* 👑 .ɢᴊɪᴅ
+* 👑 .ᴘᴀɪʀ
+* 👑 .sᴀᴠᴇ
+* 👑 .ɢᴇᴛᴘᴘ
+* 👑 .ʀᴇsᴛᴀʀᴛ
 
 ---
-👥 *GROUP COMMANDS*
+👥 *ɢʀᴏᴜᴘ ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* 👥 .remove
-* 👥 .del
-* 👥 .add
-* 👥 .kick
-* 👥 .kickall
-* 👥 .promote
-* 👥 .demote
-* 👥 .tagall
-* 👥 .invite
-* 👥 .revoke
-* 👥 .poll
-* 👥 .randomship
-* 👥 .newgc
-* 👥 .mute
-* 👥 .unmute
-* 👥 .lockgc
-* 👥 .unlockgc
-* 👥 .leave
-* 👥 .gname
-* 👥 .makeadmin
-* 👥 .tagadmins
-* 👥 .gdesc
-* 👥 .join
-* 👥 .hidetag
-* 👥 .ginfo
+* 👥 .ʀᴇᴍᴏᴠᴇ
+* 👥 .ᴅᴇʟ
+* 👥 .ᴀᴅᴅ
+* 👥 .ᴋɪᴄᴋ
+* 👥 .ᴋɪᴄᴋᴀʟʟ
+* 👥 .ᴘʀᴏᴍᴏᴛᴇ
+* 👥 .ᴅᴇᴍᴏᴛᴇ
+* 👥 .ᴛᴀɢᴀʟʟ
+* 👥 .ɪɴᴠɪᴛᴇ
+* 👥 .ʀᴇᴠᴏᴋᴇ
+* 👥 .ᴘᴏʟʟ
+* 👥 .ʀᴀɴᴅᴏᴍsʜɪᴘ
+* 👥 .ɴᴇᴡɢᴄ
+* 👥 .ᴍᴜᴛᴇ
+* 👥 .ᴜɴᴍᴜᴛᴇ
+* 👥 .ʟᴏᴄᴋɢᴄ
+* 👥 .ᴜɴʟᴏᴄᴋɢᴄ
+* 👥 .ʟᴇᴀᴠᴇ
+* 👥 .ɢɴᴀᴍᴇ
+* 👥 .ᴍᴀᴋᴇᴀᴅᴍɪɴ
+* 👥 .ᴛᴀɢᴀᴅᴍɪɴs
+* 👥 .ɢᴅᴇsᴄ
+* 👥 .ᴊᴏɪɴ
+* 👥 .ʜɪᴅᴇᴛᴀɢ
+* 👥 .ɢɪɴғᴏ
 
 ---
-ℹ️ *INFO COMMANDS*
+ℹ️ *ɪɴғᴏ ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* 💡 .about
-* 💡 .alive
-* 💡 .request
-* 💡 .botinfo
-* 💡 .status
-* 💡 .ping
-* 💡 .system
-* 💡 .uptime
+* 💡 .ᴀʙᴏᴜᴛ
+* 💡 .ᴀʟɪᴠᴇ
+* 💡 .ʀᴇǫᴜᴇsᴛ
+* 💡 .ʙᴏᴛɪɴғᴏ
+* 💡 .sᴛᴀᴛᴜs
+* 💡 .ᴘɪɴɢ
+* 💡 .sʏsᴛᴇᴍ
+* 💡 .ᴜᴘᴛɪᴍᴇ
 
 ---
-🤖 *BOT SETTINGS*
+🤖 *ʙᴏᴛ sᴇᴛᴛɪɴɢs*
 ---
-* ⚙️ .repo
-* ⚙️ .anticall 
-* ⚙️ .menu
-* ⚙️ .update
-* ⚙️ .mode
-* ⚙️ .auto-typing
-* ⚙️ .alwaysonline
-* ⚙️ .auto-recording
-* ⚙️ .autoreadstatus
-* ⚙️ .antibad
-* ⚙️ .autosticker
-* ⚙️ .autoreply
-* ⚙️ .autoreact
-* ⚙️ .antilink
-* ⚙️ .autoread
+* ⚙️ .ʀᴇᴘᴏ
+* ⚙️ .ᴀɴᴛɪᴄᴀʟʟ 
+* ⚙️ .ᴍᴇɴᴜ
+* ⚙️ .ᴜᴘᴅᴀᴛᴇ
+* ⚙️ .ᴍᴏᴅᴇ
+* ⚙️ .ᴀᴜᴛᴏ-ᴛʏᴘɪɴɢ
+* ⚙️ .ᴀʟᴡᴀʏsᴏɴʟɪɴᴇ
+* ⚙️ .ᴀᴜᴛᴏ-ʀᴇᴄᴏʀᴅɪɴɢ
+* ⚙️ .ᴀᴜᴛᴏʀᴇᴀᴅsᴛᴀᴛᴜs
+* ⚙️ .ᴀɴᴛɪʙᴀᴅ
+* ⚙️ .ᴀᴜᴛᴏsᴛɪᴄᴋᴇʀ
+* ⚙️ .ᴀᴜᴛᴏʀᴇᴘʟʏ
+* ⚙️ .ᴀᴜᴛᴏʀᴇᴀᴄᴛ
+* ⚙️ .ᴀɴᴛɪʟɪɴᴋ
+* ⚙️ .ᴀᴜᴛᴏʀᴇᴀᴅ
 
 ---
-🔄 *CONVERTER COMMANDS*
+🔄 *ᴄᴏɴᴠᴇʀᴛᴇʀ ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* ⚡ .sticker
-* ⚡ .take
-* ⚡ .trt
-* ⚡ .tts
-* ⚡ .fancy
-* ⚡ .url
-* ⚡ .age
-* ⚡ .convert
-* ⚡ .tiny
-* ⚡ .movie
-* ⚡ .terminate
-* ⚡ .family
+* ⚡ .sᴛɪᴄᴋᴇʀ
+* ⚡ .ᴛᴀᴋᴇ
+* ⚡ .ᴛʀᴛ
+* ⚡ .ᴛᴛs
+* ⚡ .ғᴀɴᴄʏ
+* ⚡ .ᴜʀʟ
+* ⚡ .ᴀɢᴇ
+* ⚡ .ᴄᴏɴᴠᴇʀᴛ
+* ⚡ .ᴛɪɴʏ
+* ⚡ .ᴍᴏᴠɪᴇ
+* ⚡ .ᴛᴇʀᴍɪɴᴀᴛᴇ
+* ⚡ .ғᴀᴍɪʟʏ
 
 ---
-🎲 *RANDOM COMMANDS*
+🎲 *ʀᴀɴᴅᴏᴍ ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* 🍀 .anime
-* 🍀 .couplepp
-* 🍀 .loli
-* 🍀 .waifu
-* 🍀 .cosplay
-* 🍀 .neko
-* 🍀 .randomanime
+* 🍀 .ᴀɴɪᴍᴇ
+* 🍀 .ᴄᴏᴜᴘʟᴇᴘᴘ
+* 🍀 .ʟᴏʟɪ
+* 🍀 .ᴡᴀɪғᴜ
+* 🍀 .ᴄᴏsᴘʟᴀʏ
+* 🍀 .ɴᴇᴋᴏ
+* 🍀 .ʀᴀɴᴅᴏᴍᴀɴɪᴍᴇ
 
 ---
-🖼️ *WALLPAPERS COMMANDS*
+🖼️ *ᴡᴀʟʟᴘᴀᴘᴇʀs ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* 🏞️ .img
-* 🏞️ .logo
+* 🏞️ .ɪᴍɢ
+* 🏞️ .ʟᴏɢᴏ
 * 🏞️ .ss
-* 🏞️ .rw
-* 🏞️ .fluxai
+* 🏞️ .ʀᴡ
+* 🏞️ .ғʟᴜxᴀɪ
 
 ---
-✨ *OTHER COMMANDS*
+✨ *ᴏᴛʜᴇʀ ᴄᴏᴍᴍᴀɴᴅs*
 ---
-* 🌐 .trt
-* 🌐 .joke
-* 🌐 .fact
-* 🌐 .github
-* 🌐 .gpass
-* 🌐 .hack
-* 🌐 .vv
-* 🌐 .vv2
-* 🌐 .spam
-* 🌐 .vcard
-* 🌐 .srepo
-* 🌐 .channelinfo
-* 🌐 .system
-* 🌐 .rank
-* 🌐 .timezone
-* 🌐 .define
-* 🌐 .dailyfact
+* 🌐 .ᴛʀᴛ
+* 🌐 .ᴊᴏᴋᴇ
+* 🌐 .ғᴀᴄᴛ
+* 🌐 .ɢɪᴛʜᴜʙ
+* 🌐 .ɢᴘᴀss
+* 🌐 .ʜᴀᴄᴋ
+* 🌐 .ᴠᴠ
+* 🌐 .ᴠᴠ2
+* 🌐 .sᴘᴀᴍ
+* 🌐 .ᴠᴄᴀʀᴅ
+* 🌐 .sʀᴇᴘᴏ
+* 🌐 .ᴄʜᴀɴɴᴇʟɪɴғᴏ
+* 🌐 .sʏsᴛᴇᴍ
+* 🌐 .ʀᴀɴᴋ
+* 🌐 .ᴛɪᴍᴇᴢᴏɴᴇ
+* 🌐 .ᴅᴇғɪɴᴇ
+* 🌐 .ᴅᴀɪʟʏғᴀᴄᴛ
 
 > ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝙱.𝙼.𝙱-𝚃𝙴𝙲𝙷🔥`;
 
