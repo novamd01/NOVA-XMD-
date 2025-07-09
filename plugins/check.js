@@ -18,15 +18,14 @@ cmd({
 }, async (conn, mek, m, { from, args, reply }) => {
   try {
     let code = args[0];
-    if (!code) return reply(`┏━━━━━━━━━━━━━━━━━━━━━┓
-❌ Please provide a country code.
-Example: .check 255
-┗━━━━━━━━━━━━━━━━━━━━━┛`);
-
+    if (!code) return reply("❌ Please provide a country code. Example: `.check 255`");
     code = code.replace(/\+/g, '');
-    const url = "https://country-code-1-hmla.onrender.com/countries";
+
+    const url = "https://country-code-1-hmla.onrender.com/countries"; // API yako
     const { data } = await axios.get(url);
+
     const matchingCountries = data.filter(country => country.calling_code === code);
+
     const jid = m.sender;
 
     if (matchingCountries.length > 0) {
@@ -35,13 +34,7 @@ Example: .check 255
         .join("\n");
 
       await conn.sendMessage(from, {
-        text: `┏━━━━━━━━━━━━━━━━━━━━━┓
-✅ *Country Code:* ${code}
-🌍 *Countries:*
-${countryNames}
-
-👤 *JID:* ${jid}
-┗━━━━━━━━━━━━━━━━━━━━━┛`,
+        text: `✅ *Country Code:* ${code}\n🌍 *Countries:*\n${countryNames}\n\n👤 *JID:* ${jid}`,
         contextInfo: {
           mentionedJid: [jid],
           forwardingScore: 999,
@@ -54,15 +47,10 @@ ${countryNames}
         }
       }, { quoted: mek });
     } else {
-      reply(`┏━━━━━━━━━━━━━━━━━━━━━┓
-❌ No country found for the code ${code}.
-👤 *JID:* ${jid}
-┗━━━━━━━━━━━━━━━━━━━━━┛`);
+      reply(`❌ No country found for the code ${code}.\n👤 *JID:* ${jid}`);
     }
   } catch (error) {
     console.error(error);
-    reply(`┏━━━━━━━━━━━━━━━━━━━━━┓
-❌ An error occurred while checking the country code.
-┗━━━━━━━━━━━━━━━━━━━━━┛`);
+    reply("❌ An error occurred while checking the country code.");
   }
 });
