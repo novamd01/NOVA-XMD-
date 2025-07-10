@@ -26,17 +26,15 @@ cmd({
 
     const matchingCountries = data.filter(country => country.calling_code === code);
 
-    const jid = m.sender;
-
     if (matchingCountries.length > 0) {
       const countryNames = matchingCountries
         .map(c => `${getFlagEmoji(c.code)} ${c.name}`)
         .join("\n");
 
       await conn.sendMessage(from, {
-        text: `✅ *Country Code:* ${code}\n🌍 *Countries:*\n${countryNames}\n\n👤 *JID:* ${jid}`,
+        text: `✅ *Country Code:* ${code}\n🌍 *Countries:*\n${countryNames}`,
         contextInfo: {
-          mentionedJid: [jid],
+          mentionedJid: [m.sender],
           forwardingScore: 999,
           isForwarded: true,
           forwardedNewsletterMessageInfo: {
@@ -47,7 +45,7 @@ cmd({
         }
       }, { quoted: mek });
     } else {
-      reply(`❌ No country found for the code ${code}.\n👤 *JID:* ${jid}`);
+      reply(`❌ No country found for the code ${code}.`);
     }
   } catch (error) {
     console.error(error);
