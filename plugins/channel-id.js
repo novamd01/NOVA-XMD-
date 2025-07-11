@@ -1,7 +1,7 @@
 const { cmd } = require("../command");
 
 cmd({
-  pattern: "cid",
+  pattern: "channel",
   alias: ["newsletter", "id"],
   react: "📡",
   desc: "Get WhatsApp Channel info from link",
@@ -39,14 +39,36 @@ cmd({
     if (metadata.preview) {
       await conn.sendMessage(from, {
         image: { url: `https://pps.whatsapp.net${metadata.preview}` },
-        caption: infoText
+        caption: infoText,
+        contextInfo: {
+          forwardingScore: 999,
+          isForwarded: true,
+          mentionedJid: [m.sender],
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: "120363382023564830@newsletter",
+            newsletterName: "𝙽𝙾𝚅𝙰-𝚇𝙼𝙳",
+            serverMessageId: 1
+          }
+        }
       }, { quoted: m });
     } else {
-      await reply(infoText);
+      await conn.sendMessage(from, {
+        text: infoText,
+        contextInfo: {
+          forwardingScore: 999,
+          isForwarded: true,
+          mentionedJid: [m.sender],
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: "120363382023564830@newsletter",
+            newsletterName: "𝙽𝙾𝚅𝙰-𝚇𝙼𝙳",
+            serverMessageId: 1
+          }
+        }
+      }, { quoted: m });
     }
 
   } catch (error) {
-    console.error("❌ Error in .cinfo plugin:", error);
+    console.error("❌ Error in .channel plugin:", error);
     reply("⚠️ An unexpected error occurred.");
   }
 });
