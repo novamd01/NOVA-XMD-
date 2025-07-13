@@ -1,24 +1,40 @@
+const { cmd } = require("../command");
+
 cmd({
   pattern: "setpp",
-  desc: "Set bot profile pic",
+  alias: ["setbotpic"],
+  desc: "Set bot profile picture (compatible with baileys-pro)",
   category: "owner",
   filename: __filename
 }, async (zk, m, msg, { isCreator, reply }) => {
-  if (!isCreator) return reply("⛔ Owner only!");
+  if (!isCreator) return reply("❌ Owner only.");
 
   if (!m.quoted || !/image/.test(m.quoted.mtype)) {
-    return reply("⚠️ Reply to an image.");
+    return reply("⚠️ Reply to an image to set as bot profile picture.");
   }
 
   try {
-    const imageBuffer = await zk.downloadMediaMessage(m.quoted);
-    if (!imageBuffer || imageBuffer.length < 1000) return reply("🚫 Image is invalid or too small.");
+    const media = await zk.downloadMediaMessage(m.quoted);
+    if (!media) return reply("❌ Failed to download image.");
 
-    await zk.updateProfilePicture(zk.user.id, imageBuffer);
+    // Hii ndio njia ya msingi kabisa kufanya setpp (inayofanya kazi kwenye baileys-pro)
+    await zk.query({
+      tag: 'iq',
+      attrs: {
+        to: zk.user.id,
+        type: 'set',
+        xmlns: 'w:profile:picture'
+      },
+      content: [{
+        tag: 'picture',
+        attrs: { type: 'image' },
+        content: media
+      }]
+    });
 
-    return await reply("✅ Bot profile picture updated successfully.");
+    await reply("✅ Profile picture updated successfully.");
   } catch (e) {
-    console.error(e);
-    return reply("❌ Error: " + e.message);
+    console.error("SETPP ERROR:", e);
+    return reply("❌ Error: " + (e?.message || e));
   }
 });
