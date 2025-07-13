@@ -1,5 +1,4 @@
 const { cmd } = require("../command");
-const fs = require("fs");
 
 const newsletterContext = {
   contextInfo: {
@@ -13,7 +12,7 @@ const newsletterContext = {
   }
 };
 
-// GETPP - Iko tayari kama ulivyoiweka
+// GETPP - Chukua picha ya mtumiaji aliye replyiwa
 cmd({
   pattern: "getpp1",
   alias: [],
@@ -51,7 +50,7 @@ cmd({
   }, { quoted: m });
 });
 
-// SETPP - mpya inayoendana
+// SETPP - Weka picha ya bot kwa kujibu image
 cmd({
   pattern: "setpp",
   alias: ["setpic", "setbotpic"],
@@ -70,10 +69,10 @@ cmd({
   try {
     const imageBuffer = await zk.downloadMediaMessage(m.quoted);
 
-    // Update profile picture
-    await zk.updateProfilePicture(m.user.id, imageBuffer);
+    if (!imageBuffer) return reply("❌ Failed to read image.");
 
-    // Send success message
+    await zk.updateProfilePicture(zk.user.id, imageBuffer);
+
     await zk.sendMessage(m.chat, {
       image: imageBuffer,
       caption: `
