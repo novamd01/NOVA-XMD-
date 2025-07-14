@@ -1,4 +1,6 @@
 const fetch = require('node-fetch');
+const fs = require('fs');
+const path = require('path');
 const config = require('../config');
 const { cmd } = require('../command');
 
@@ -20,181 +22,90 @@ async (conn, mek, m, { from, reply }) => {
         if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
         const repoData = await response.json();
 
-        // Format 1: Classic Box
-        const style1 = `╭───『 ${config.BOT_NAME} REPO 』───⳹
-│
-│ 📦 *Repository*: ${repoData.name}
-│ 👑 *Owner*: ${repoData.owner.login}
-│ ⭐ *Stars*: ${repoData.stargazers_count}
-│ ⑂ *Forks*: ${repoData.forks_count}
-│ 🔗 *URL*: ${repoData.html_url}
-│
-│ 📝 *Description*:
-│ ${repoData.description || 'No description'}
-│
-╰────────────────⳹
-> ${config.DESCRIPTION}`;
+        // Style 1 - 5: Different formatting styles
+        const style1 = `
+╭━━━「 ${config.BOT_NAME} REPO 」━━━➤
+│ 📦 Name: ${repoData.name}
+│ 👤 Owner: ${repoData.owner.login}
+│ ⭐ Stars: ${repoData.stargazers_count}
+│ 🍴 Forks: ${repoData.forks_count}
+│ 🌐 URL: ${repoData.html_url}
+│ 📝 Desc: ${repoData.description || 'None'}
+╰━━━━━━━━━━━━━━━━━━━━━━━➤
+🔗 ${config.DESCRIPTION}`
 
-        // Format 2: Minimalist
-        const style2 = `•——[ GITHUB INFO ]——•
-  │
-  ├─ 🏷️ ${repoData.name}
-  ├─ 👤 ${repoData.owner.login}
-  ├─ ✨ ${repoData.stargazers_count} Stars
-  ├─ ⑂ ${repoData.forks_count} Forks
-  │
-  •——[ ${config.BOT_NAME} ]——•
-  > ${config.DESCRIPTION}`;
+        const style2 = `
+┏━━━━━ ⍟ ${config.BOT_NAME} GitHub Repo ⍟ ━━━━━┓
+┃ 🔖 Name : ${repoData.name}
+┃ 👑 Owner : ${repoData.owner.login}
+┃ 🌟 Stars : ${repoData.stargazers_count}
+┃ 🍽️ Forks : ${repoData.forks_count}
+┃ 🔗 Link : ${repoData.html_url}
+┃ 📜 Desc : ${repoData.description || 'None'}
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+✨ ${config.DESCRIPTION}`
 
-        // Format 3: Fancy Borders
-        const style3 = `▄▀▄▀▄ REPOSITORY INFO ▄▀▄▀▄
+        const style3 = `
+━━━━━━━━━━━━━━━━━━━━
+🔰 *${config.BOT_NAME} GitHub Info*
+━━━━━━━━━━━━━━━━━━━━
+🔹 *Name:* ${repoData.name}
+🔹 *Owner:* ${repoData.owner.login}
+🔹 *Stars:* ${repoData.stargazers_count}
+🔹 *Forks:* ${repoData.forks_count}
+🔹 *Link:* ${repoData.html_url}
+🔹 *Desc:* ${repoData.description || 'None'}
+━━━━━━━━━━━━━━━━━━━━
+🔸 ${config.DESCRIPTION}
+        `
 
-  ♢ *Project*: ${repoData.name}
-  ♢ *Author*: ${repoData.owner.login}
-  ♢ *Stars*: ${repoData.stargazers_count} ✨
-  ♢ *Forks*: ${repoData.forks_count} ⑂
-  ♢ *Updated*: ${new Date(repoData.updated_at).toLocaleDateString()}
-  
-  🔗 ${repoData.html_url}
-  
-  > ${config.DESCRIPTION}`;
+        const style4 = `
+> ${config.BOT_NAME} :: Repository Info
+----------------------------------------
+[ Name  ] => ${repoData.name}
+[ Owner ] => ${repoData.owner.login}
+[ Stars ] => ${repoData.stargazers_count}
+[ Forks ] => ${repoData.forks_count}
+[ Link  ] => ${repoData.html_url}
+[ Desc  ] => ${repoData.description || 'None'}
+----------------------------------------
+${config.DESCRIPTION}
+        `
 
-        // Format 4: Code Style
-        const style4 = `┌──────────────────────┐
-│  ⚡ ${config.BOT_NAME} REPO  ⚡  │
-├──────────────────────┤
-│ • Name: ${repoData.name}
-│ • Owner: ${repoData.owner.login}
-│ • Stars: ${repoData.stargazers_count}
-│ • Forks: ${repoData.forks_count}
-│ • URL: ${repoData.html_url}
-│ • Desc: ${repoData.description || 'None'}
-└──────────────────────┘
-> ${config.DESCRIPTION}`;
+        const style5 = `
+📦 *${config.BOT_NAME} REPO DETAILS* 📦
+━━━━━━━━━━━━━━━━━━━━
+🔰 *NAME:* ${repoData.name}
+👤 *OWNER:* ${repoData.owner.login}
+⭐ *STARS:* ${repoData.stargazers_count}
+🍴 *FORKS:* ${repoData.forks_count}
+🌐 *URL:* ${repoData.html_url}
+📝 *DESC:* ${repoData.description || 'None'}
+━━━━━━━━━━━━━━━━━━━━
+📌 ${config.DESCRIPTION}
+        `
 
-        // Format 5: Modern Blocks
-        const style5 = `▰▰▰▰▰ REPO INFO ▰▰▰▰▰
-
-  🏷️  *${repoData.name}*
-  👨‍💻  ${repoData.owner.login}
-  
-  ⭐ ${repoData.stargazers_count}  ⑂ ${repoData.forks_count}
-  🔗 ${repoData.html_url}
-  
-  📜 ${repoData.description || 'No description'}
-  
-  > ${config.DESCRIPTION}`;
-
-        // Format 6: Retro Terminal
-        const style6 = `╔══════════════════════╗
-║   ${config.BOT_NAME} REPO    ║
-╠══════════════════════╣
-║ > NAME: ${repoData.name}
-║ > OWNER: ${repoData.owner.login}
-║ > STARS: ${repoData.stargazers_count}
-║ > FORKS: ${repoData.forks_count}
-║ > URL: ${repoData.html_url}
-║ > DESC: ${repoData.description || 'None'}
-╚══════════════════════╝
-> ${config.DESCRIPTION}`;
-
-        // Format 7: Elegant
-        const style7 = `┌───────────────┐
-│  📂  REPO  │
-└───────────────┘
-│
-│ *Project*: ${repoData.name}
-│ *Author*: ${repoData.owner.login}
-│
-│ ✨ ${repoData.stargazers_count} Stars
-│ ⑂ ${repoData.forks_count} Forks
-│
-│ 🔗 ${repoData.html_url}
-│
-┌───────────────┐
-│  📝  DESC  │
-└───────────────┘
-${repoData.description || 'No description'}
-
-> ${config.DESCRIPTION}`;
-
-        // Format 8: Social Media Style
-        const style8 = `✦ ${config.BOT_NAME} Repository ✦
-
-📌 *${repoData.name}*
-👤 @${repoData.owner.login}
-
-⭐ ${repoData.stargazers_count} Stars | ⑂ ${repoData.forks_count} Forks
-🔄 Last updated: ${new Date(repoData.updated_at).toLocaleDateString()}
-
-🔗 GitHub: ${repoData.html_url}
-
-${repoData.description || 'No description available'}
-
-> ${config.DESCRIPTION}`;
-
-        // Format 9: Fancy List
-        const style9 = `╔♫═🎧═♫══════════╗
-   ${config.BOT_NAME} REPO
-╚♫═🎧═♫══════════╝
-
-•・゜゜・* ✧  *・゜゜・•
- ✧ *Name*: ${repoData.name}
- ✧ *Owner*: ${repoData.owner.login}
- ✧ *Stars*: ${repoData.stargazers_count}
- ✧ *Forks*: ${repoData.forks_count}
-•・゜゜・* ✧  *・゜゜・•
-
-🔗 ${repoData.html_url}
-
-${repoData.description || 'No description'}
-
-> ${config.DESCRIPTION}`;
-
-        // Format 10: Professional
-        const style10 = `┏━━━━━━━━━━━━━━━━━━┓
-┃  REPOSITORY REPORT  ┃
-┗━━━━━━━━━━━━━━━━━━┛
-
-◈ Project: ${repoData.name}
-◈ Maintainer: ${repoData.owner.login}
-◈ Popularity: ★ ${repoData.stargazers_count} | ⑂ ${repoData.forks_count}
-◈ Last Update: ${new Date(repoData.updated_at).toLocaleDateString()}
-◈ URL: ${repoData.html_url}
-
-Description:
-${repoData.description || 'No description provided'}
-
-> ${config.DESCRIPTION}`;
-
-        const styles = [style1, style2, style3, style4, style5, style6, style7, style8, style9, style10];
+        const styles = [style1, style2, style3, style4, style5];
         const selectedStyle = styles[Math.floor(Math.random() * styles.length)];
 
-        // Send image with repo info
+        // Random image from /scs folder (local)
+        const scsFolder = path.join(__dirname, "../scs");
+        const images = fs.readdirSync(scsFolder).filter(f => /^menu\d+\.jpg$/i.test(f));
+        const randomImage = images[Math.floor(Math.random() * images.length)];
+        const imageBuffer = fs.readFileSync(path.join(scsFolder, randomImage));
+
         await conn.sendMessage(from, {
-            image: { url: config.MENU_IMAGE_URL || 'https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/image/allmenu.jpg' },
-            caption: selectedStyle,
+            image: imageBuffer,
+            caption: selectedStyle.trim(),
             contextInfo: { 
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363382023564830@newsletter',
-                    newsletterName: config.OWNER_NAME || 'Pk driller',
+                    newsletterName: config.OWNER_NAME || '𝗡𝗢𝗩𝗔-𝗫𝗠𝗗',
                     serverMessageId: 143
                 }
-            }
-        }, { quoted: mek });
-
-        // Send audio
-        await conn.sendMessage(from, {
-            audio: { url: 'https://github.com/novaxmd/BMB-DATA/raw/refs/heads/main/media/menu1.mp3' },
-            mimetype: 'audio/mp4',
-            ptt: true,
-            contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true
             }
         }, { quoted: mek });
 
