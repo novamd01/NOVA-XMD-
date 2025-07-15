@@ -3,34 +3,55 @@ const { cmd } = require("../command");
 
 cmd({
   pattern: "fb",
-  alias: ["facebook", "fbdl"],
-  desc: "Download Facebook videos",
+  alias: ["facebook"],
+  desc: "Download Facebook video using link",
   category: "download",
-  filename: __filename,
-  use: "<Facebook URL>",
-}, async (conn, m, store, { from, args, q, reply }) => {
+  filename: __filename
+}, async (conn, m, match, { from, q, reply }) => {
   try {
     if (!q || !q.startsWith("http")) {
-      return reply("*`Need a valid Facebook URL`*\n\nExample: `.fb https://www.facebook.com/...`");
+      return reply("❌ *Usage:* fb <Facebook Video URL>");
     }
 
-    await conn.sendMessage(from, { react: { text: '⏳', key: m.key } });
-
-    const apiUrl = `https://nova-downloadbmb.vercel.app/api/facebook?url=${encodeURIComponent(q)}`;
-    const { data } = await axios.get(apiUrl);
-
-    if (!data.success || !data.url) {
-      return reply("❌ Failed to fetch the video. Please try another link.");
-    }
-
-    const videoUrl = data.url;
     await conn.sendMessage(from, {
-      video: { url: videoUrl },
-      caption: "📥 *Facebook Video Downloaded*\n\n- Powered by 𝙱.𝙼.𝙱-𝚃𝙴𝙲𝙷 ✅",
+      react: { text: "⏳", key: m.key }
+    });
+
+    const { data } = await axios.get(`https://api.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(q)}`);
+
+    if (!data.status || !data.video || !data.video.downloads) {
+      return reply("⚠️ *Failed to fetch Facebook video. Please try again.*");
+    }
+
+    const { title, downloads } = data.video;
+    const bestQuality = downloads.find(v => v.quality === "HD") || downloads.find(v => v.quality === "SD");
+
+    if (!bestQuality) {
+      return reply("⚠️ *No downloadable video found.*");
+    }
+
+    const caption = `📹 *Facebook Video*\n\n🎬 *Title:* ${title}\n📥 *Quality:* ${bestQuality.quality}\n\n🔗 *Powered By 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳 ✅*`;
+
+    await conn.sendMessage(from, {
+      video: { url: bestQuality.downloadUrl },
+      mimetype: "video/mp4",
+      caption,
+      contextInfo: {
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: "120363382023564830@newsletter",
+          newsletterName: "𝗡𝗢𝗩𝗔-𝗫𝗠𝗗",
+          serverMessageId: 144
+        }
+      }
     }, { quoted: m });
 
-  } catch (error) {
-    console.error("Error:", error);
-    reply("❌ Error fetching the video. Please try again later.");
+    await conn.sendMessage(from, { react: { text: "✅", key: m.key } });
+
+  } catch (err) {
+    console.error("Facebook Downloader Error:", err);
+    reply("❌ *An error occurred while processing your request. Please try again later.*");
   }
 });
