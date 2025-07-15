@@ -1,18 +1,6 @@
 const { cmd } = require('../command');
 const axios = require('axios');
 
-// Newsletter context info to show "View Channel"
-const newsletterContext = {
-  forwardingScore: 999,
-  isForwarded: true,
-  forwardedNewsletterMessageInfo: {
-    newsletterJid: "120363382023564830@newsletter", // Hii ndio JID ya channel yako
-    newsletterName: "𝙱.𝙼.𝙱-𝚇𝙼𝙳",
-    serverMessageId: 1
-  },
-  mentionedJid: [] // Optional if you still want to mention sender
-};
-
 cmd({
   pattern: "tiktok",
   alias: ["ttdl", "tt", "tiktokdl"],
@@ -37,21 +25,35 @@ async (conn, mek, m, { from, args, q, reply }) => {
     const videoUrl = meta.media.find(v => v.type === "video").org;
 
     const caption = `🎵 *TikTok Video* 🎵\n\n` +
-                    `👤 *User:* ${author.nickname} (@${author.username})\n` +
-                    `📖 *Title:* ${title}\n` +
-                    `👍 *Likes:* ${like}\n💬 *Comments:* ${comment}\n🔁 *Shares:* ${share}`;
+    "┏━━━━━━━━━━━━━━━━━━━━━┓\n" +
+    `┃ 👤 *User:* ${author.nickname} (@${author.username})\n` +
+    "┗━━━━━━━━━━━━━━━━━━━━━┛\n\n" +
+    "┏━━━━━━━━━━━━━━━━━━━━━┓\n" +
+    `┃ 📖 *Title:* ${title}\n` +
+    "┗━━━━━━━━━━━━━━━━━━━━━┛\n\n" +
+    "┏━━━━━━━━━━━━━━━━━━━━━┓\n" +
+    `┃ 👍 *Likes:* ${like}\n` +
+    `┃ 💬 *Comments:* ${comment}\n` +
+    `┃ 🔁 *Shares:* ${share}\n` +
+    "┗━━━━━━━━━━━━━━━━━━━━━┛";
 
     await conn.sendMessage(from, {
       video: { url: videoUrl },
       caption: caption,
       contextInfo: {
-        ...newsletterContext,
-        mentionedJid: [m.sender] // Hii inamu-tag user aliyetoa command
+        mentionedJid: [m.sender],
+        forwardingScore: 999,
+        isForwarded: true,
+        forwardedNewsletterMessageInfo: {
+          newsletterJid: "120363382023564830@newsletter",
+          newsletterName: "𝙽𝙾𝚅𝙰-𝚇𝙼𝙳",
+          serverMessageId: 1
+        }
       }
     }, { quoted: mek });
 
   } catch (e) {
     console.error("Error in TikTok downloader command:", e);
-    reply(`An error occurred: ${e.message}`);
+    reply(`❌ An error occurred: ${e.message}`);
   }
 });
