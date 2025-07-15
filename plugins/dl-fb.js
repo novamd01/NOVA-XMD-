@@ -4,7 +4,7 @@ const { cmd } = require("../command");
 cmd({
   pattern: "fb",
   alias: ["facebook"],
-  desc: "Download Facebook video using backup APIs",
+  desc: "Download Facebook video using link",
   category: "download",
   filename: __filename
 }, async (conn, m, match, { from, q, reply }) => {
@@ -17,38 +17,19 @@ cmd({
       react: { text: "⏳", key: m.key }
     });
 
-    const apis = [
-      `https://api.giftedtech.web.id/api/download/facebookv2?apikey=gifted&url=${encodeURIComponent(q)}`,
-      `https://api.giftedtech.web.id/api/download/facebook?apikey=gifted&url=${encodeURIComponent(q)}`
-    ];
+    // Tumia API yako ya Vercel
+    const { data } = await axios.get(`https://nova-downloadbmb.vercel.app/api/fb?url=${encodeURIComponent(q)}`);
 
-    let videoUrl = null;
-    let title = "Facebook Video";
-
-    for (const api of apis) {
-      try {
-        const { data } = await axios.get(api);
-        if (data?.result?.url) {
-          videoUrl = data.result.url;
-          title = data.result.title || title;
-          break;
-        }
-      } catch (err) {
-        // Jaribu API inayofuata kama hii imefail
-        continue;
-      }
+    if (!data || !data.videoUrl) {
+      return reply("⚠️ *Failed to fetch Facebook video. Please try another link.*");
     }
 
-    if (!videoUrl) {
-      return reply("⚠️ *Failed to fetch Facebook video from both APIs. Try another link.*");
-    }
-
-    const caption = `📹 *Facebook Video*\n🎬 *Title:* ${title}\n\n🔗 *Powered By 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳 ✅*`;
+    const caption = `📹 *Facebook Video*\n🎬 *Title:* ${data.title || 'No Title'}\n\n🔗 *Powered by NOVA-XMD ✅*`;
 
     await conn.sendMessage(from, {
-      video: { url: videoUrl },
+      video: { url: data.videoUrl },
       mimetype: "video/mp4",
-      caption,
+      caption: caption,
       contextInfo: {
         mentionedJid: [m.sender],
         forwardingScore: 999,
