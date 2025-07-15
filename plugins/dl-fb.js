@@ -4,7 +4,7 @@ const { cmd } = require("../command");
 cmd({
   pattern: "fb",
   alias: ["facebook"],
-  desc: "Download Facebook video using link",
+  desc: "Download Facebook video using backup APIs",
   category: "download",
   filename: __filename
 }, async (conn, m, match, { from, q, reply }) => {
@@ -17,23 +17,36 @@ cmd({
       react: { text: "⏳", key: m.key }
     });
 
-    const { data } = await axios.get(`https://api.davidcyriltech.my.id/facebook2?url=${encodeURIComponent(q)}`);
+    const apis = [
+      `https://api.giftedtech.web.id/api/download/facebookv2?apikey=gifted&url=${encodeURIComponent(q)}`,
+      `https://api.giftedtech.web.id/api/download/facebook?apikey=gifted&url=${encodeURIComponent(q)}`
+    ];
 
-    if (!data.status || !data.video || !data.video.downloads) {
-      return reply("⚠️ *Failed to fetch Facebook video. Please try again.*");
+    let videoUrl = null;
+    let title = "Facebook Video";
+
+    for (const api of apis) {
+      try {
+        const { data } = await axios.get(api);
+        if (data?.result?.url) {
+          videoUrl = data.result.url;
+          title = data.result.title || title;
+          break;
+        }
+      } catch (err) {
+        // Jaribu API inayofuata kama hii imefail
+        continue;
+      }
     }
 
-    const { title, downloads } = data.video;
-    const bestQuality = downloads.find(v => v.quality === "HD") || downloads.find(v => v.quality === "SD");
-
-    if (!bestQuality) {
-      return reply("⚠️ *No downloadable video found.*");
+    if (!videoUrl) {
+      return reply("⚠️ *Failed to fetch Facebook video from both APIs. Try another link.*");
     }
 
-    const caption = `📹 *Facebook Video*\n\n🎬 *Title:* ${title}\n📥 *Quality:* ${bestQuality.quality}\n\n🔗 *Powered By 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳 ✅*`;
+    const caption = `📹 *Facebook Video*\n🎬 *Title:* ${title}\n\n🔗 *Powered By 𝙽𝙾𝚅𝙰-𝚇𝙼𝙳 ✅*`;
 
     await conn.sendMessage(from, {
-      video: { url: bestQuality.downloadUrl },
+      video: { url: videoUrl },
       mimetype: "video/mp4",
       caption,
       contextInfo: {
